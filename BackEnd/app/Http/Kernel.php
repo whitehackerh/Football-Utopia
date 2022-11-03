@@ -45,8 +45,8 @@ class Kernel extends HttpKernel
         ],
 
         'WBE' => [
-            \App\Http\Middleware\BeforeBackEnd::class,
-            \App\Http\Middleware\AfterBackEnd::class
+            \App\Http\Middleware\BeforeMiddleware::class,
+            \App\Http\Middleware\AfterMiddleware::class
         ]
     ];
 

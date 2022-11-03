@@ -19,7 +19,7 @@ class UsersSeeder extends Seeder
         Users::create([
             'user_name' => 'admin_floyd',
             'name' => 'Floyd',
-            'password' => 'Floyd',
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
             'email' => 'a@a',
             'image_pass' => '1/profile.png',
             'age' => 0,
@@ -34,7 +34,7 @@ class UsersSeeder extends Seeder
         Users::create([
             'user_name' => 'b',
             'name' => 'b',
-            'password' => 'b',
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
             'email' => 'b@b',
             'image_pass' => '2/profile.png',
             'age' => 19,

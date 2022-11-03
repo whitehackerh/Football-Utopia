@@ -15,17 +15,18 @@ return new class extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->increments('user_id');
+            $table->id();
             $table->string('user_name', 255);
             $table->string('name', 255);
             $table->string('password', 255);
-            $table->string('mail_address', 255);
-            $table->string('image_pass', 255);
-            $table->string('gender');
-            $table->tinyInteger('admin_flag');
-            $table->tinyInteger('delete_flag');
-            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->rememberToken();
+            $table->timeStamps();
+            $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('image_pass')->nullable();
+            $table->string('gender')->nullable();
+            $table->tinyInteger('admin_flag')->nullable();
+            $table->tinyInteger('delete_flag')->nullable();
             $table->softDeletesTz($column = 'deleted_at', $precision = 0);
         });
     }

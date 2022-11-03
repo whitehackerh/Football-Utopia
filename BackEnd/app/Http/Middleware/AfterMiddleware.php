@@ -3,8 +3,9 @@ namespace App\Http\Middleware;
 
 use Closure;
 
-class BeforeBackEnd {
+class AfterMiddleware {
     public function handle($request, Closure $next) {
-        return $next($request);
+        $response = $next($request);
+        return $response;
     }
 }
