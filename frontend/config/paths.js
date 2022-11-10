@@ -54,7 +54,7 @@ const resolveModule = (resolveFn, filePath) => {
 module.exports = {
   dotenv: resolveApp('.env'),
   appPath: resolveApp('.'),
-  appBuild: resolveApp('../../BackEnd/public'),
+  appBuild: resolveApp('D:/Football_Utopia/XAMPP/htdocs/Football_Utopia/BackEnd/public'),
   appPublic: resolveApp('public'),
   appHtml: resolveApp('public/index.html'),
   appIndexJs: resolveModule(resolveApp, 'src/index'),

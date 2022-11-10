@@ -1,6 +1,6 @@
 <?php
 
-class BaseClass {
+class BaseService {
     public function __construct() {
         
     }
