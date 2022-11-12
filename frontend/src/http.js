@@ -1,5 +1,13 @@
 import axios from 'axios';
-export default axios.create({
-    baseURL:"http://localhost:8000",
+const apiUrl = "http://127.0.0.1:8000";
+export const requestHeaders = {
+    "Content-type": "application/json",
+    "Authorization": '',
+}
+export const noTokenRequest = axios.create({
+    baseURL:apiUrl,
     headers:{"Content-type":"application/json"}
+})
+export const withTokenRequest = axios.create({
+    baseURL:apiUrl,
 })
