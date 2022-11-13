@@ -28,7 +28,6 @@ export default function Signup() {
             password: values.password
         })
         .then((res) => {
-            console.log(res);
             navigate('/User', {state: res.data});
         })
         .catch((error) => {
