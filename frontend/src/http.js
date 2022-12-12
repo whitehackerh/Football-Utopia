@@ -1,5 +1,5 @@
 import axios from 'axios';
-const apiUrl = "http://127.0.0.1:8000";
+const apiUrl = "http://127.0.0.1:80";
 export const requestHeaders = {
     "Content-type": "application/json",
     "Authorization": '',

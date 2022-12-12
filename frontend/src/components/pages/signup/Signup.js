@@ -49,5 +49,4 @@ export default function Signup() {
             <Button variant="contained" style={{ margin: "10px" }} onClick={registerUser}>Register</Button>
         </div>
     );
-
 }

@@ -11,7 +11,7 @@ class AuthController extends Controller
 {
     public function register(Request $request) {
         $validatedData = $request->validate([
-            'user_name' => 'required|string|max:255',
+            'user_name' => 'required|string|max:255|unique:users',
             'name' => 'required|string|max:255',
                             'email' => 'required|string|email|max:255|unique:users',
                             'password' => 'required|string|min:8',
@@ -31,13 +31,13 @@ class AuthController extends Controller
             ]);
     }
     public function login(Request $request) {
-        if (!Auth::attempt($request->only('email', 'password'))) {
+        if (!Auth::attempt($request->only('user_name', 'password'))) {
         return response()->json([
         'message' => 'Invalid login details'
                 ], 401);
             }
         
-        $user = User::where('email', $request['email'])->firstOrFail();
+        $user = User::where('user_name', $request['user_name'])->firstOrFail();
         
         $token = $user->createToken('auth_token')->plainTextToken;
             

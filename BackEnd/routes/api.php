@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CreateUserController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UpdateUserBasicInfoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,6 +31,7 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::middleware('auth:sanctum')->group(function() {
     Route::get('/getAccount', [AuthController::class, 'getAccount']);
+    Route::post('/updateUserBasicInfo', [UpdateUserBasicInfoController::class, '__invoke']);
 });
 
 Route::middleware(['WBE'])->group(function() {
