@@ -11,6 +11,7 @@ const User = () => {
     token_type: location.state.token_type
   };
   const [values, setValues] = useState(null);
+  const [errorVisibleFlag, setErrorVisibleFlag] = useState(false);
   requestHeaders.Authorization = `${userToken.token_type} ${userToken.token}`;
 
   useEffect(() => {
@@ -44,10 +45,13 @@ const User = () => {
       headers: requestHeaders,
     })
     .then(() => {
-        getAccount();
+      setErrorVisibleFlag(false);
+      getAccount();
     })
     .catch((error) => {
         console.log(error);
+        setErrorVisibleFlag(true);
+        setValues({ ...values, errorMessage: error.response.data.data.errors});
     });
   }
 
@@ -61,12 +65,26 @@ const User = () => {
     margin: "50px"
   }
 
+  const errorMessageStyles = {
+    visibility: errorVisibleFlag ? 'visible' : 'hidden',
+    padding: "20px 0",
+    "font-size": "20px",
+    "background-color": "pink",
+    margin: "20px 50px",
+    color: "red"
+  }
+
   return (
-    <div style={userForm}>
+    <div>
+      <div>
+        <h1 style={errorMessageStyles}>{values.errorMessage}</h1><br></br>
+      </div>
+      <div style={userForm}>
         <TextField id="outlined-basic" label="User Name" variant="outlined" name="user_name" value={values.user_name} onChange={handleChange}/><br /><br />
         <TextField id="outlined-basic" label="Name" variant="outlined" name="name" value={values.name} onChange={handleChange}/><br /><br />
         <TextField id="outlined-basic" label="Email" variant="outlined" name="email" value={values.email} onChange={handleChange}/><br /><br />
-        <Button variant="contained" style={{ margin: "10px" }} onClick={updateUser}>Register</Button>
+        <Button variant="contained" style={{ margin: "10px" }} onClick={updateUser}>SAVE</Button>
+      </div>
     </div>
   );
 };

@@ -19,6 +19,7 @@ class UpdateUserBasicInfoController extends Controller {
         } catch (ExpandException $e) {
             $responder = new UpdateUserBasicInfoResponder($e);
             $responder->setResponse($e->getErrors());
+            return $responder->getResponse();
         }
         $responder = new UpdateUserBasicInfoResponder();
         $responder->setResponse($data);
