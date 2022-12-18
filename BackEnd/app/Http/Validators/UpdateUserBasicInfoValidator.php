@@ -17,7 +17,9 @@ class UpdateUserBasicInfoValidator extends BaseValidator {
             'user_name' => ['required', 'string', 'max:255'],
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255'],
-            'user_id' => ['integer']
+            'user_id' => ['integer'],
+            'age' => ['required', 'numeric'],
+            'gender' => ['required', 'string']
         ];
     }
 

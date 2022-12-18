@@ -15,7 +15,9 @@ class UsersModel extends BaseModel {
                     ->update([
                         'user_name' => $request->input('user_name'),
                         'name' => $request->input('name'),
-                        'email' => $request->input('email')
+                        'email' => $request->input('email'),
+                        'age' => $request->input('age'),
+                        'gender' => $request->input('gender')
                     ]);
             return;
         } catch (Exception $e) {

@@ -3,6 +3,10 @@ import { useEffect, useState } from 'react';
 import { withTokenRequest, requestHeaders } from '../../../http';
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import Select from "@mui/material/Select";
+import { MenuItem } from '@mui/material';
+import InputLabel from "@mui/material/InputLabel";
+
 
 const User = () => {
   const location = useLocation();
@@ -40,7 +44,9 @@ const User = () => {
         user_name: values.user_name, 
         name: values.name, 
         email: values.email, 
-        password: values.password
+        password: values.password,
+        age: values.age,
+        gender: values.gender
     }, {
       headers: requestHeaders,
     })
@@ -83,6 +89,9 @@ const User = () => {
         <TextField id="outlined-basic" label="User Name" variant="outlined" name="user_name" value={values.user_name} onChange={handleChange}/><br /><br />
         <TextField id="outlined-basic" label="Name" variant="outlined" name="name" value={values.name} onChange={handleChange}/><br /><br />
         <TextField id="outlined-basic" label="Email" variant="outlined" name="email" value={values.email} onChange={handleChange}/><br /><br />
+        <TextField id="outlined-basic" label="Age" variant="outlined" name="age" value={values.age} onChange={handleChange}/><br /><br />
+        <InputLabel id="gender-select-label">Gender</InputLabel>
+        <Select style={{width: "120px"}} labelId="gender-select-label" id="outlined-basic" label="Gender" name="gender" value={values.gender} onChange={handleChange}><MenuItem value="men">men</MenuItem><MenuItem value="women">women</MenuItem></Select><br /><br /><br />
         <Button variant="contained" style={{ margin: "10px" }} onClick={updateUser}>SAVE</Button>
       </div>
     </div>
