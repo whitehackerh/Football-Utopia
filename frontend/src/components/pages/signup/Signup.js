@@ -35,6 +35,8 @@ export default function Signup() {
             gender: values.gender
         })
         .then((res) => {
+            localStorage.setItem('access_token', res.data.access_token);
+            localStorage.setItem('token_type', res.data.token_type);
             navigate('/User', {state: res.data});
         })
         .catch((error) => {
