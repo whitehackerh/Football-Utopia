@@ -27,7 +27,7 @@ const Login = () => {
     .then((res) => {
       localStorage.setItem('access_token', res.data.access_token);
       localStorage.setItem('token_type', res.data.token_type);
-      navigate('/User', {state: res.data});
+      navigate('/accountSettings');
     })
     .catch((error) => {
       console.log(error);

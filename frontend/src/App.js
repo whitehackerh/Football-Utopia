@@ -10,6 +10,7 @@ import HomeBar from "./HomeBar";
 import Login from "./components/pages/login/Login";
 import Signup from "./components/pages/signup/Signup";
 import User from "./components/pages/user/User";
+import AccountSettings from "./components/pages/accountSettings/AccountSettings";
 
 const Links = () => {
   // リンクによるページ遷移
@@ -53,6 +54,7 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/user" element={<User />} />
+          <Route path="/accountSettings" element={<AccountSettings />} />
         </Route>
       </Routes>
     </BrowserRouter>
