@@ -4,24 +4,24 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Validators\UpdateUserBasicInfoValidator;
-use App\Http\Services\UpdateUserBasicInfoService;
-use App\Http\Responders\UpdateUserBasicInfoResponder;
+use App\Http\Validators\UpdateUserBasicProfileValidator;
+use App\Http\Services\UpdateUserBasicProfileService;
+use App\Http\Responders\UpdateUserBasicProfileResponder;
 use App\Exceptions\ExpandException;
 
-class UpdateUserBasicInfoController extends Controller {
+class UpdateUserBasicProfileController extends Controller {
     public function __invoke(Request $request) {
         try {
-            $validator = new UpdateUserBasicInfoValidator();
+            $validator = new UpdateUserBasicProfileValidator();
             $validator->validateApi($request);
-            $service = new UpdateUserBasicInfoService();
+            $service = new UpdateUserBasicProfileService();
             $data = $service->service($request);
         } catch (ExpandException $e) {
-            $responder = new UpdateUserBasicInfoResponder($e);
+            $responder = new UpdateUserBasicProfileResponder($e);
             $responder->setResponse($e->getErrors());
             return $responder->getResponse();
         }
-        $responder = new UpdateUserBasicInfoResponder();
+        $responder = new UpdateUserBasicProfileResponder();
         $responder->setResponse($data);
         return $responder->getResponse();
     }

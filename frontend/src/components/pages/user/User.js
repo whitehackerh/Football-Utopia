@@ -19,11 +19,11 @@ const User = () => {
   requestHeaders.Authorization = `${userToken.token_type} ${userToken.token}`;
 
   useEffect(() => {
-    getAccount();
+    getUserBasicProfile();
   }, []);
 
-  const getAccount = async () => {
-    const responseParam = await withTokenRequest.get('/getAccount', {
+  const getUserBasicProfile = async () => {
+    const responseParam = await withTokenRequest.get('/getUserBasicProfile', {
         headers: requestHeaders
     });
     setValues(responseParam.data);
@@ -39,7 +39,7 @@ const User = () => {
   }
 
   function updateUser() {    
-    withTokenRequest.post('/updateUserBasicInfo', {
+    withTokenRequest.post('/updateUserBasicProfile', {
         user_id: values.id,
         user_name: values.user_name, 
         name: values.name, 
@@ -52,7 +52,7 @@ const User = () => {
     })
     .then(() => {
       setErrorVisibleFlag(false);
-      getAccount();
+      getUserBasicProfile();
     })
     .catch((error) => {
         console.log(error);

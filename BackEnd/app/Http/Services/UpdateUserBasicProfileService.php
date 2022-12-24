@@ -8,11 +8,11 @@ use Illuminate\Http\Request;
 use Exception;
 use App\Exceptions\ExpandException;
 
-class UpdateUserBasicInfoService extends BaseService {
+class UpdateUserBasicProfileService extends BaseService {
     public function service(Request $request) {
         try {
             $model = new UsersModel();
-            $model->updateUsersBasicInfo($request);
+            $model->updateUsersBasicProfile($request);
             return null;
         } catch (Exception $e) {
             throw new ExpandException($e->getMessage(), 400);

@@ -59,7 +59,7 @@ class AuthController extends Controller
         ]);
     }
 
-    public function getAccount(Request $request) {
+    public function getUserBasicProfile(Request $request) {
         return $request->user();
     }
 }

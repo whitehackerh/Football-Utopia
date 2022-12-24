@@ -8,7 +8,7 @@ use Exception;
 
 class UsersModel extends BaseModel {
     private $table = 'users';
-    public function updateUsersBasicInfo($request) {
+    public function updateUsersBasicProfile($request) {
         try {
             DB::table($this->table)
                     ->where('id', $request->input('user_id'))

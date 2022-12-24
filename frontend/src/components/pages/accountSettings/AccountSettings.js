@@ -13,11 +13,11 @@ const AccountSettings = () => {
   requestHeaders.Authorization = `${localStorage.getItem('token_type')} ${localStorage.getItem('access_token')}`;
 
   useEffect(() => {
-    getAccount();
+    getUserBasicProfile();
   }, []);
 
-  const getAccount = async () => {
-    const responseParam = await withTokenRequest.get('/getAccount', {
+  const getUserBasicProfile = async () => {
+    const responseParam = await withTokenRequest.get('/getUserBasicProfile', {
         headers: requestHeaders
     });
     setValues(responseParam.data);
@@ -33,7 +33,7 @@ const AccountSettings = () => {
   }
 
   function updateUser() {    
-    withTokenRequest.post('/updateUserBasicInfo', {
+    withTokenRequest.post('/updateUserBasicProfile', {
         user_id: values.id,
         user_name: values.user_name, 
         name: values.name, 
@@ -46,7 +46,7 @@ const AccountSettings = () => {
     })
     .then(() => {
       setErrorVisibleFlag(false);
-      getAccount();
+      getUserBasicProfile();
     })
     .catch((error) => {
         console.log(error);
