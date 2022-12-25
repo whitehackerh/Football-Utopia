@@ -63,9 +63,6 @@ const AccountSettings = () => {
   }
 
   /** css */
-  /*const contents = {
-    display: 'flex'
-  }*/
 
   const mainContents = {
     float: 'left',
