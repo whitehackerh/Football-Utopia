@@ -1,4 +1,5 @@
 import { noTokenRequest } from '../../../http';
+import { getUserBasicProfile } from '../../../utils/function';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import TextField from "@mui/material/TextField";
@@ -37,13 +38,14 @@ export default function Signup() {
         .then((res) => {
             localStorage.setItem('access_token', res.data.access_token);
             localStorage.setItem('token_type', res.data.token_type);
-            navigate('/accountSettings');
+            getUserBasicProfile();
+            navigate('/basicProfileSettings');
         })
         .catch((error) => {
             console.log(error);
         });
     }
-    
+
     const registerUserForm = {
         margin: "50px",
     }

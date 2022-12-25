@@ -6,28 +6,21 @@ import {
   Link,
   useLocation
 } from "react-router-dom";
+import Home from "./components/pages/home/Home";
 import HomeBar from "./HomeBar";
 import Login from "./components/pages/login/Login";
 import Signup from "./components/pages/signup/Signup";
 import User from "./components/pages/user/User";
-import AccountSettings from "./components/pages/accountSettings/AccountSettings";
+import BasicProfileSettings from "./components/pages/accountSettings/BasicProfileSettings";
+import DetailProfileSettings from "./components/pages/accountSettings/DetailProfileSettings";
 
-const Links = () => {
+const Top = () => {
   // リンクによるページ遷移
   return (
-    <ul>
-      <li>
-        <Link to="/link1">Link 1</Link>
-      </li>
-      <li>
-        <Link to="/link2">Link 2</Link>
-      </li>
-    </ul>
+    <h1>Top</h1>
   );
 };
 
-const Link1 = () => <h2>This is a page of Link1.</h2>;
-const Link2 = () => <h2>This is a page of Link2.</h2>;
 
 const Menu = () => {
   let location = useLocation();
@@ -36,7 +29,7 @@ const Menu = () => {
       <HomeBar />
       {/* これは今開いているページによって表示するコンポーネントを変えている */}
       {/* location.pathname で今開いているページのパスを取得できる */}
-      {location.pathname === "/" ? <Links /> : <></>}
+      {location.pathname === "/" ? <Top /> : <></>}
       <Outlet />
     </>
   );
@@ -49,12 +42,12 @@ const App = () => {
         {/* ネストさせる(Route 要素の中に Route 要素を入れる)ことで、常に表示させたいコンポーネントを維持することができる */}
         <Route path="/" element={<Menu />}>
           {/* パスによってどのコンポーネントをレンダーするか決める */}
-          <Route path="/link1" element={<Link1 />} />
-          <Route path="/link2" element={<Link2 />} />
+          <Route path="/home" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/user" element={<User />} />
-          <Route path="/accountSettings" element={<AccountSettings />} />
+          <Route path="/basicProfileSettings" element={<BasicProfileSettings />} />
+          <Route path="/detailProfileSettings" element={<DetailProfileSettings />} />
         </Route>
       </Routes>
     </BrowserRouter>

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { noTokenRequest } from '../../../http';
+import { getUserBasicProfile } from '../../../utils/function';
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
@@ -27,7 +28,8 @@ const Login = () => {
     .then((res) => {
       localStorage.setItem('access_token', res.data.access_token);
       localStorage.setItem('token_type', res.data.token_type);
-      navigate('/accountSettings');
+      getUserBasicProfile();
+      navigate('/home');
     })
     .catch((error) => {
       console.log(error);

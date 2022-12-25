@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from 'react';
 import { withTokenRequest, requestHeaders } from './http';
 import { Box } from "@mui/material";
+import Logo from "./assets/img/logo.png"
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
@@ -31,18 +32,10 @@ const HomeBar = () => {
         open={isMenuOpen}
         onClose={handleMenuClose}
       >
-        <MenuItem onClick={() => {handleMenuClose(); goToAccountSettingsPage();}}>Account Settings</MenuItem>
+        <MenuItem onClick={() => {handleMenuClose(); navigate("/basicProfileSettings");}}>Account Settings</MenuItem>
         <MenuItem onClick={() => {handleMenuClose(); LogoutEvent();}}>Logout</MenuItem>
       </Menu>
     );
-  };
-
-  const goToAccountSettingsPage = () => {
-    navigate("/accountSettings");
-  }
-  const goToLoginPage = () => {
-    // ボタンクリックによるページ遷移
-    navigate("/login");
   };
 
   const LogoutEvent = () => {
@@ -52,6 +45,7 @@ const HomeBar = () => {
     }).then(() => {
       localStorage.removeItem('access_token');
       localStorage.removeItem('token_type');
+      localStorage.removeItem('user_id');
       navigate('/');
     })
   }
@@ -71,7 +65,7 @@ const HomeBar = () => {
     );
   } else {
     AuthMenu = (
-    <Button color="inherit" onClick={() => goToLoginPage()}>
+    <Button color="inherit" onClick={() => navigate('/login')}>
       Login
     </Button>
     );
@@ -79,10 +73,10 @@ const HomeBar = () => {
 
   return (
     <Box>
-      <AppBar position="static">
+      <AppBar position="static" style={{background: "goldenrod"}}>
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            News
+            <img src={Logo} alt="picture" onClick={() => navigate('/')} style={{cursor: "pointer"}}/>
           </Typography>
           {AuthMenu}
         </Toolbar>
