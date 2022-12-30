@@ -39,7 +39,7 @@ const User = () => {
   }
 
   function updateUser() {    
-    withTokenRequest.post('/updateUserBasicProfile', {
+    withTokenRequest.post('/setUserBasicProfile', {
         user_id: values.id,
         user_name: values.user_name, 
         name: values.name, 

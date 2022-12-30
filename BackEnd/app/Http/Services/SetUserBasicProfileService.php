@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Exception;
 use App\Exceptions\ExpandException;
 
-class UpdateUserBasicProfileService extends BaseService {
+class SetUserBasicProfileService extends BaseService {
     public function service(Request $request) {
         try {
             $model = new UsersModel();

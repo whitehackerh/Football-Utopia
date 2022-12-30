@@ -9,7 +9,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 
 
-class UpdateUserBasicProfileValidator extends BaseValidator {
+class SetUserBasicProfileValidator extends BaseValidator {
     private $parameterRule;
     
     public function __construct() {
