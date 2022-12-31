@@ -17,7 +17,8 @@ class UsersModel extends BaseModel {
                         'name' => $request->input('name'),
                         'email' => $request->input('email'),
                         'age' => $request->input('age'),
-                        'gender' => $request->input('gender')
+                        'gender' => $request->input('gender'),
+                        'nationality' => $request->input('nationality')
                     ]);
             return;
         } catch (Exception $e) {

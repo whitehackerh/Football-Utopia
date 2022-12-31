@@ -17,6 +17,7 @@ class AuthController extends Controller
             'password' => 'required|string|min:8',
             'age' => 'required|numeric',
             'gender' => 'required|string',
+            'nationality' => 'required|string'
             ]);
             
                 $user = User::create([
@@ -25,21 +26,22 @@ class AuthController extends Controller
                     'email' => $validatedData['email'],
                     'password' => Hash::make($validatedData['password']),
                     'age' => $validatedData['age'],
-                    'gender' => $validatedData['gender']
+                    'gender' => $validatedData['gender'],
+                    'nationality' => $validatedData['nationality']
                 ]);
             
             $token = $user->createToken('auth_token')->plainTextToken;
             return response()->json([
                         'access_token' => $token,
-                            'token_type' => 'Bearer',
+                        'token_type' => 'Bearer',
             ]);
     }
     public function login(Request $request) {
         if (!Auth::attempt($request->only('user_name', 'password'))) {
         return response()->json([
-        'message' => 'Invalid login details'
-                ], 401);
-            }
+                    'message' => 'Invalid login details'
+                    ], 401);
+                }
         
         $user = User::where('user_name', $request['user_name'])->firstOrFail();
         

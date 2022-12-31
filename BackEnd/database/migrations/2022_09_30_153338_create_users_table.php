@@ -23,9 +23,11 @@ return new class extends Migration
             $table->timeStamps();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('image_pass')->nullable();
+            $table->string('image_original_pass')->nullable();
+            $table->string('image_thumbnail_pass')->nullable();
             $table->integer('age')->nullable();
             $table->string('gender')->nullable();
+            $table->string('nationality')->nullable();
             $table->tinyInteger('admin_flag')->nullable();
             $table->tinyInteger('delete_flag')->nullable();
             $table->softDeletesTz($column = 'deleted_at', $precision = 0);

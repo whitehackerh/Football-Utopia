@@ -19,7 +19,8 @@ class SetUserBasicProfileValidator extends BaseValidator {
             'email' => ['required', 'string', 'email', 'max:255'],
             'user_id' => ['integer'],
             'age' => ['required', 'numeric'],
-            'gender' => ['required', 'string']
+            'gender' => ['required', 'string'],
+            'nationality' => ['required', 'string']
         ];
     }
 

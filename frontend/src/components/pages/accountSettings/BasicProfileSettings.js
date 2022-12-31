@@ -41,7 +41,8 @@ const AccountSettings = () => {
         email: values.email, 
         password: values.password,
         age: values.age,
-        gender: values.gender
+        gender: values.gender,
+        nationality: values.nationality
     }, {
       headers: requestHeaders,
     })
@@ -97,6 +98,8 @@ const AccountSettings = () => {
             <TextField id="outlined-basic" label="Age" variant="outlined" name="age" value={values.age} onChange={handleChange}/><br /><br />
             <InputLabel id="gender-select-label">Gender</InputLabel>
             <Select style={{width: "120px"}} labelId="gender-select-label" id="outlined-basic" label="Gender" name="gender" value={values.gender} onChange={handleChange}><MenuItem value="men">men</MenuItem><MenuItem value="women">women</MenuItem></Select><br /><br /><br />
+            <InputLabel id="nationality-select-label">Nationality</InputLabel>
+            <Select style={{width: "120px"}} labelId="nationality-select-label" id="outlined-basic" label="Nationality" name="nationality" value={values.nationality} onChange={handleChange}><MenuItem value="Spain">Spain</MenuItem><MenuItem value="Germany">Germany</MenuItem><MenuItem value="France">France</MenuItem><MenuItem value="Italy">Italy</MenuItem><MenuItem value="UK">UK</MenuItem></Select><br /><br /><br />
             <Button variant="contained" style={{ margin: "10px" }} onClick={updateUser}>SAVE</Button>
           </div>
         </div>
