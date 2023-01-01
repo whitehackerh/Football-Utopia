@@ -2,10 +2,11 @@ import { noTokenRequest } from '../../../http';
 import { getUserBasicProfile } from '../../../utils/function';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { nations } from '../../modules/const/nations'; 
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Select from "@mui/material/Select";
-import { MenuItem } from '@mui/material';
+import { Autocomplete, MenuItem } from '@mui/material';
 import InputLabel from "@mui/material/InputLabel";
 
 export default function Signup() {
@@ -62,8 +63,7 @@ export default function Signup() {
             <TextField id="outlined-basic" label="Age" variant="outlined" name="age" value={values.age} onChange={handleChange}/><br /><br />
             <InputLabel id="gender-select-label">Gender</InputLabel>
             <Select style={{width: "120px"}} labelId="gender-select-label" id="outlined-basic" label="Gender" name="gender" value={values.gender} onChange={handleChange}><MenuItem value="men">men</MenuItem><MenuItem value="women">women</MenuItem></Select><br /><br /><br />
-            <InputLabel id="nationality-select-label">Nationality</InputLabel>
-            <Select style={{width: "120px"}} labelId="nationality-select-label" id="outlined-basic" label="Nationality" name="nationality" value={values.nationality} onChange={handleChange}><MenuItem value="Spain">Spain</MenuItem><MenuItem value="Germany">Germany</MenuItem><MenuItem value="France">France</MenuItem><MenuItem value="Italy">Italy</MenuItem><MenuItem value="UK">UK</MenuItem></Select><br /><br /><br />
+            <Autocomplete options={nations} renderInput={(params => <TextField {...params} label="Nationality" />)} value={values.nationality} onChange={(event, newValue) => {setValues({ ...values, nationality: newValue });}} style={{ width: "240px"}}></Autocomplete>
             <Button variant="contained" style={{ margin: "10px" }} onClick={registerUser}>Register</Button>
         </div>
     );
