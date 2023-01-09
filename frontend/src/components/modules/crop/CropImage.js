@@ -1,0 +1,221 @@
+import React, { useState, useCallback } from "react";
+import { useNavigate } from 'react-router-dom';
+import styled from "styled-components";
+import Cropper from "react-easy-crop";
+import getCroppedImg from "./CropUtils";
+import "./Crop.css";
+import { withTokenRequest, formData } from '../../../http';
+import { PREVIEW_TYPES } from "@rpldy/upload-preview";
+//import { getMockSenderEnhancer } from "@rpldy/mock-sender";
+import ImageSettings from "../../pages/accountSettings/ImageSettings";
+import {
+    withRequestPreSendUpdate,
+    useItemFinalizeListener,
+    useItemProgressListener
+} from "@rpldy/uploady";
+
+    //export const mockSenderEnhancer = getMockSenderEnhancer({ delay: 1500 });
+
+    const PreviewImage = styled.img`
+        margin: 5px;
+        max-width: 200px;
+        height: auto;
+        max-height: 200px;
+    `;
+
+    const ButtonsWrapper = styled.div`
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 10px;
+        position: absolute;
+        top: 0;
+        right: 0;
+    `;
+
+    const PreviewButtons = ({
+        finished,
+        crop,
+        updateRequest,
+        onUploadCancel,
+        onUploadCrop
+    }) => {
+        return (
+            <ButtonsWrapper>
+            <button
+                style={{
+                display: !finished && updateRequest && crop ? "block" : "none"
+                }}
+                onClick={onUploadCrop}
+            >
+                Upload Cropped
+            </button>
+            {/* <button
+                style={{ display: !finished && updateRequest ? "block" : "none" }}
+                onClick={updateRequest}
+            >
+                Upload without Crop
+            </button> */}
+            <button
+                style={{
+                display: !finished && updateRequest && crop ? "block" : "none"
+                }}
+                onClick={onUploadCancel}
+            >
+                Cancel
+            </button>
+            </ButtonsWrapper>
+        );
+    };
+
+    const UPLOAD_STATES = {
+        NONE: 0,
+        UPLOADING: 1,
+        FINISHED: 2
+    };
+
+    /* API REQUEST */
+    function SetProfileIcon(item, formDataParam) {
+        const submitData = new FormData();
+        submitData.append("user_id", localStorage.getItem('user_id'));
+        submitData.append("image", item);
+        withTokenRequest.post('/setProfileIcon', submitData,
+            {
+                headers: formDataParam
+            })
+            .then(() => {
+                //return 'success';
+                return;
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
+
+    export const ItemPreviewWithCrop = withRequestPreSendUpdate((props) => {
+        const {
+        id,
+        url,
+        isFallback,
+        type,
+        updateRequest,
+        requestData,
+        previewMethods,
+        aspectProps,
+        api,
+        aspectControllButtonsVisible,
+        inputTextVisible
+        } = props;
+        formData.Authorization = `${localStorage.getItem('token_type')} ${localStorage.getItem('access_token')}`;
+        const [uploadState, setUploadState] = useState(UPLOAD_STATES.NONE);
+        const [croppedImg, setCroppedImg] = useState(null);
+        const [values, setValues] = useState(null);
+        const [aspect, setAspect] = useState(aspectProps);
+        const navigate = useNavigate();
+    
+        //data for react-easy-crop
+        const [crop, setCrop] = useState({ x: 0, y: 0 });
+        const [zoom, setZoom] = useState(1);
+        const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+    
+        const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {
+        // console.log(croppedArea, croppedAreaPixels);
+        setCroppedAreaPixels(croppedAreaPixels);
+        }, []);
+
+        function handleChange(e) {
+            const target = e.target;
+            const value = target.value;
+            const name = target.name;
+            setValues({ ...values, [name]: value });
+        }
+    
+        const isFinished = uploadState === UPLOAD_STATES.FINISHED;
+    
+        useItemProgressListener(() => setUploadState(UPLOAD_STATES.UPLOADING), id);
+        useItemFinalizeListener(() => setUploadState(UPLOAD_STATES.FINISHED), id);
+    
+        const onUploadCrop = useCallback(async () => {
+        if (updateRequest && croppedAreaPixels) {
+            const [croppedBlob, croppedUri] = await getCroppedImg(
+            url,
+            croppedAreaPixels
+            );
+    
+            requestData.items[0].file = croppedBlob;
+    
+            updateRequest({ items: requestData.items });
+            switch (api) {
+                case 'setProfileIcon':
+                    SetProfileIcon(requestData.items[0].file, formData);
+                    break;
+                default:
+                    break;
+            }
+            //setCroppedImg(croppedUri);
+        }
+        }, [url, requestData, updateRequest, croppedAreaPixels]);
+    
+        const onUploadCancel = useCallback(() => {
+            updateRequest(false);
+            if (previewMethods.current?.clear) {
+                previewMethods.current.clear();
+            }
+        }, [updateRequest, previewMethods]);
+    
+        return isFallback || type !== PREVIEW_TYPES.IMAGE ? (
+        // <PreviewImage src={url} alt="fallback img" />
+        null
+        ) : (
+        <>
+            {requestData && uploadState === UPLOAD_STATES.NONE ? (
+            <div className="crop-view">
+                <div className="crop-container">
+                <Cropper
+                    image={url}
+                    crop={crop}
+                    zoom={zoom}
+                    aspect={aspect}
+                    onCropChange={setCrop}
+                    onCropComplete={onCropComplete}
+                    onZoomChange={setZoom}
+                />
+                </div>
+                <div className="aspectControll" style={{ position: 'absolute', display: aspectControllButtonsVisible ? '' : 'none' }}>
+                    <button onClick={() => setAspect(1/1)}>Square</button>
+                    <button onClick={() => setAspect(5/4)}>Portrait</button>
+                    <button onClick={() => setAspect(1/1.91)}>Landscape</button>
+                </div>
+                <div className="inputText" style={{ position: 'absolute', display: inputTextVisible ? '' : 'none' }}>
+                    <textarea onChange={handleChange}></textarea>
+                </div>
+                <div className="controls">
+                <input
+                    type="range"
+                    value={zoom}
+                    min={1}
+                    max={3}
+                    step={0.1}
+                    aria-labelledby="Zoom"
+                    onChange={(e) => {
+                    setZoom(e.target.value);
+                    }}
+                    className="zoom-range"
+                />
+                </div>
+            </div>
+            ) : (
+            //<PreviewImage src={croppedImg || url} alt="img to upload" />
+            null
+            )}
+            <PreviewButtons
+            finished={isFinished}
+            crop={crop}
+            updateRequest={updateRequest}
+            onUploadCancel={onUploadCancel}
+            onUploadCrop={onUploadCrop}
+            />
+            {/* <p>{isFinished ? "DONE" : ""}</p> */}
+        </>
+        );
+    });
