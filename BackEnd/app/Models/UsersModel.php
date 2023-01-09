@@ -25,4 +25,29 @@ class UsersModel extends BaseModel {
             throw new ExpandException($e->getMessage(), config('ErrorConst.sqlError.code'));
         }
     }
+
+    public function getProfileIcon($user_id) {
+        try {
+            $profileIcon = DB::table($this->table)
+                ->where('id', $user_id)
+                ->select('profile_icon_pass')
+                ->get();
+            return $profileIcon;
+        } catch (Exception $e) {
+            throw new ExpandException($e->getMessage(), config('ErrorConst.sqlError.code'));
+        }
+    }
+
+    public function updateProfileIcon($user_id, $profileIconPass) {
+        try {
+            DB::table($this->table)
+                ->where('id', $user_id)
+                ->update([
+                    'profile_icon_pass' => $profileIconPass
+                ]);
+            return;
+        } catch (Exception $e) {
+            throw new ExpandException($e->getMessage(), config('ErrorConst.sqlError.code'));
+        }
+    }
 }

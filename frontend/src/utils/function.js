@@ -8,3 +8,7 @@ export function getUserBasicProfile() {
         localStorage.setItem('user_id', res.data.id);
     });
 };
+
+export function deleteBackSlash(value) {
+    return value.replace(/(\\)/g, '');
+}
