@@ -4,24 +4,24 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Validators\GetProfileIconValidator;
-use App\Http\Services\GetProfileIconService;
-use App\Http\Responders\GetProfileIconResponder;
+use App\Http\Validators\GetProfilePictureCroppedValidator;
+use App\Http\Services\GetProfilePictureCroppedService;
+use App\Http\Responders\GetProfilePictureCroppedResponder;
 use App\Exceptions\ExpandException;
 
-class GetProfileIconController extends Controller {
+class GetProfilePictureCroppedController extends Controller {
     public function __invoke(Request $request) {
         try {
-            $validator = new GetProfileIconValidator();
+            $validator = new GetProfilePictureCroppedValidator();
             $validator->validateApi($request);
-            $service = new GetProfileIconService;
+            $service = new GetProfilePictureCroppedService;
             $data = $service->service($request);
         } catch (ExpandException $e) {
-            $responder = new GetProfileIconResponder($e);
+            $responder = new GetProfilePictureCroppedResponder($e);
             $responder->setResponse($e->getErrors());
             return $responder->getResponse();
         }
-        $responder = new GetProfileIconResponder();
+        $responder = new GetProfilePictureCroppedResponder();
         $responder->setResponse($data);
         return $responder->getResponse();
     }

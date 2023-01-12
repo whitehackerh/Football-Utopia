@@ -4,7 +4,7 @@ export const requestHeaders = {
     "Content-Type": "application/json",
     "Authorization": '',
 }
-export const formData = {
+export const multipartFormData = {
     "Content-Type": "multipart/form-data",
     "Authorization": '',
 }

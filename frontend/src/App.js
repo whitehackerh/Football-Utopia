@@ -12,7 +12,7 @@ import Login from "./components/pages/login/Login";
 import Signup from "./components/pages/signup/Signup";
 import User from "./components/pages/user/User";
 import BasicProfileSettings from "./components/pages/accountSettings/BasicProfileSettings";
-import ImageSettings from "./components/pages/accountSettings/ImageSettings";
+import ProfilePictureSettings from "./components/pages/accountSettings/ProfilePictureSettings";
 import DetailProfileSettings from "./components/pages/accountSettings/DetailProfileSettings";
 
 const Top = () => {
@@ -48,7 +48,7 @@ const App = () => {
           <Route path="/signup" element={<Signup />} />
           <Route path="/user" element={<User />} />
           <Route path="/basicProfileSettings" element={<BasicProfileSettings />} />
-          <Route path="/imageSettings" element={<ImageSettings />} />
+          <Route path="/profilePictureSettings" element={<ProfilePictureSettings />} />
           <Route path="/detailProfileSettings" element={<DetailProfileSettings />} />
         </Route>
       </Routes>
