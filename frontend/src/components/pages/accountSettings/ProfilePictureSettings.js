@@ -82,6 +82,10 @@ const ProfilePictureSettings = () => {
         height: '200px'
     }
 
+    const deleteButtonStyle = {
+        'margin-left': '50px'
+    }
+
     return (
         <>
             <SideBar_AccountSettings />
@@ -92,7 +96,7 @@ const ProfilePictureSettings = () => {
                     <div className="ProfilePicture1" style={profilePictureSettings}>
                         <img src={profilePicutreCropped1Pass + "?" + date} alt="picture" style={croppedStyle}></img><br></br>
                         <UploadButton>SETTINGS</UploadButton>
-                        <button onClick={() => deleteProfilePicture(1)}>DELETE</button>
+                        <button style={deleteButtonStyle} onClick={() => deleteProfilePicture(1)}>DELETE</button>
                         <br />
                     <UploadPreview
                         PreviewComponent={ItemPreviewWithCrop}
@@ -111,7 +115,7 @@ const ProfilePictureSettings = () => {
                     <div className="ProfilePicture2" style={profilePictureSettings}>
                         <img src={profilePicutreCropped2Pass + "?" + date} alt="picture" style={croppedStyle}></img><br></br>
                         <UploadButton>SETTINGS</UploadButton>
-                        <button onClick={() => deleteProfilePicture(2)}>DELETE</button>
+                        <button style={deleteButtonStyle} onClick={() => deleteProfilePicture(2)}>DELETE</button>
                         <br />
                     <UploadPreview
                         PreviewComponent={ItemPreviewWithCrop}
@@ -130,7 +134,7 @@ const ProfilePictureSettings = () => {
                     <div className="ProfilePicture3" style={profilePictureSettings}>
                         <img src={profilePicutreCropped3Pass + "?" + date} alt="picture" style={croppedStyle}></img><br></br>
                         <UploadButton>SETTINGS</UploadButton>
-                        <button onClick={() => deleteProfilePicture(3)}>DELETE</button>
+                        <button style={deleteButtonStyle} onClick={() => deleteProfilePicture(3)}>DELETE</button>
                         <br />
                     <UploadPreview
                         PreviewComponent={ItemPreviewWithCrop}
