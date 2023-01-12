@@ -45,6 +45,25 @@ const ProfilePictureSettings = () => {
         });
     }
 
+    function deleteProfilePicture(profilePictureNo) {
+        withTokenRequest.post('./deleteProfilePicture', {user_id: localStorage.getItem('user_id'), profilePictureNo: profilePictureNo},
+            {headers: requestHeaders}
+        )
+        .then(() => {
+            switch (profilePictureNo) {
+                case 1:
+                    setProfilePictureCropped1Pass(noImage);
+                    break;
+                case 2:
+                    setProfilePictureCropped2Pass(noImage);
+                    break;
+                case 3:
+                    setProfilePictureCropped3Pass(noImage);
+                    break;
+            }
+        })
+    }
+
     /** css */
     const mainContents = {
         float: 'left',
@@ -73,6 +92,7 @@ const ProfilePictureSettings = () => {
                     <div className="ProfilePicture1" style={profilePictureSettings}>
                         <img src={profilePicutreCropped1Pass + "?" + date} alt="picture" style={croppedStyle}></img><br></br>
                         <UploadButton>SETTINGS</UploadButton>
+                        <button onClick={() => deleteProfilePicture(1)}>DELETE</button>
                         <br />
                     <UploadPreview
                         PreviewComponent={ItemPreviewWithCrop}
@@ -91,6 +111,7 @@ const ProfilePictureSettings = () => {
                     <div className="ProfilePicture2" style={profilePictureSettings}>
                         <img src={profilePicutreCropped2Pass + "?" + date} alt="picture" style={croppedStyle}></img><br></br>
                         <UploadButton>SETTINGS</UploadButton>
+                        <button onClick={() => deleteProfilePicture(2)}>DELETE</button>
                         <br />
                     <UploadPreview
                         PreviewComponent={ItemPreviewWithCrop}
@@ -109,6 +130,7 @@ const ProfilePictureSettings = () => {
                     <div className="ProfilePicture3" style={profilePictureSettings}>
                         <img src={profilePicutreCropped3Pass + "?" + date} alt="picture" style={croppedStyle}></img><br></br>
                         <UploadButton>SETTINGS</UploadButton>
+                        <button onClick={() => deleteProfilePicture(3)}>DELETE</button>
                         <br />
                     <UploadPreview
                         PreviewComponent={ItemPreviewWithCrop}
