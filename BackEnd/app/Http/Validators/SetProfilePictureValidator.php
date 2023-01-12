@@ -8,12 +8,13 @@ use App\Exceptions\ExpandException;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 
-class SetProfileIConValidator extends BaseValidator {
+class SetProfilePictureValidator extends BaseValidator {
     private $parameterRule;
 
     public function __construct() {
         $this->parameterRule = [
-            'user_id' => ['required', 'integer']
+            'user_id' => ['required', 'integer'],
+            'profilePictureNo' => ['required', 'integer']
         ];
     }
 

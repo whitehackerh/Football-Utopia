@@ -23,8 +23,12 @@ return new class extends Migration
             $table->timeStamps();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('profile_icon_pass')->nullable();
-            $table->string('profile_main_image_pass')->nullable();
+            $table->string('profile_picture_cropped_1')->nullable();
+            $table->string('profile_picture_original_1')->nullable();
+            $table->string('profile_picture_cropped_2')->nullable();
+            $table->string('profile_picture_original_2')->nullable();
+            $table->string('profile_picture_cropped_3')->nullable();
+            $table->string('profile_picture_original_3')->nullable();
             $table->integer('age')->nullable();
             $table->string('gender')->nullable();
             $table->string('nationality')->nullable();

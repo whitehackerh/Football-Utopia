@@ -1,20 +1,16 @@
 import React, { useState, useCallback } from "react";
-import { useNavigate } from 'react-router-dom';
 import styled from "styled-components";
 import Cropper from "react-easy-crop";
 import getCroppedImg from "./CropUtils";
 import "./Crop.css";
-import { withTokenRequest, formData } from '../../../http';
+import { withTokenRequest, multipartFormData } from '../../../http';
+import { createImage } from "./CropUtils";
 import { PREVIEW_TYPES } from "@rpldy/upload-preview";
-//import { getMockSenderEnhancer } from "@rpldy/mock-sender";
-import ImageSettings from "../../pages/accountSettings/ImageSettings";
 import {
     withRequestPreSendUpdate,
     useItemFinalizeListener,
     useItemProgressListener
 } from "@rpldy/uploady";
-
-    //export const mockSenderEnhancer = getMockSenderEnhancer({ delay: 1500 });
 
     const PreviewImage = styled.img`
         margin: 5px;
@@ -50,12 +46,6 @@ import {
             >
                 Upload Cropped
             </button>
-            {/* <button
-                style={{ display: !finished && updateRequest ? "block" : "none" }}
-                onClick={updateRequest}
-            >
-                Upload without Crop
-            </button> */}
             <button
                 style={{
                 display: !finished && updateRequest && crop ? "block" : "none"
@@ -75,16 +65,17 @@ import {
     };
 
     /* API REQUEST */
-    function SetProfileIcon(item, formDataParam) {
+    function SetProfilePicture(croppedPicture, originalPicture, multipartFormDataParam, profilePictureNo) {
         const submitData = new FormData();
         submitData.append("user_id", localStorage.getItem('user_id'));
-        submitData.append("image", item);
-        withTokenRequest.post('/setProfileIcon', submitData,
+        submitData.append("profilePictureNo", profilePictureNo);
+        submitData.append("croppedPicture", croppedPicture);
+        submitData.append("originalPicture", originalPicture)
+        withTokenRequest.post('/setProfilePicture', submitData,
             {
-                headers: formDataParam
+                headers: multipartFormDataParam
             })
             .then(() => {
-                //return 'success';
                 return;
             })
             .catch((error) => {
@@ -104,20 +95,20 @@ import {
         aspectProps,
         api,
         aspectControllButtonsVisible,
-        inputTextVisible
+        inputTextVisible,
+        distinctiveParam
         } = props;
-        formData.Authorization = `${localStorage.getItem('token_type')} ${localStorage.getItem('access_token')}`;
+        multipartFormData.Authorization = `${localStorage.getItem('token_type')} ${localStorage.getItem('access_token')}`;
         const [uploadState, setUploadState] = useState(UPLOAD_STATES.NONE);
         const [croppedImg, setCroppedImg] = useState(null);
         const [values, setValues] = useState(null);
         const [aspect, setAspect] = useState(aspectProps);
-        const navigate = useNavigate();
     
         //data for react-easy-crop
         const [crop, setCrop] = useState({ x: 0, y: 0 });
         const [zoom, setZoom] = useState(1);
         const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
-    
+        console.log(requestData);
         const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {
         // console.log(croppedArea, croppedAreaPixels);
         setCroppedAreaPixels(croppedAreaPixels);
@@ -141,13 +132,23 @@ import {
             url,
             croppedAreaPixels
             );
-    
             requestData.items[0].file = croppedBlob;
+            
+            const originalPicture = await createImage(url);
+            const originalPictureSize = {
+                width: originalPicture.width,
+                height: originalPicture.height,
+                x: 0,
+                y: 0
+            };
+            const [originalBlob, originalUri] = await getCroppedImg(url, originalPictureSize);
     
             updateRequest({ items: requestData.items });
+
             switch (api) {
-                case 'setProfileIcon':
-                    SetProfileIcon(requestData.items[0].file, formData);
+                case 'setProfilePicture':
+                    SetProfilePicture(requestData.items[0].file, originalBlob, multipartFormData, distinctiveParam.profilePictureNo);
+                    distinctiveParam.distinctiveFunc();
                     break;
                 default:
                     break;
@@ -164,7 +165,6 @@ import {
         }, [updateRequest, previewMethods]);
     
         return isFallback || type !== PREVIEW_TYPES.IMAGE ? (
-        // <PreviewImage src={url} alt="fallback img" />
         null
         ) : (
         <>
@@ -205,7 +205,6 @@ import {
                 </div>
             </div>
             ) : (
-            //<PreviewImage src={croppedImg || url} alt="img to upload" />
             null
             )}
             <PreviewButtons
@@ -215,7 +214,6 @@ import {
             onUploadCancel={onUploadCancel}
             onUploadCrop={onUploadCrop}
             />
-            {/* <p>{isFinished ? "DONE" : ""}</p> */}
         </>
         );
     });

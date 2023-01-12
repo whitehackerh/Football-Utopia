@@ -26,24 +26,25 @@ class UsersModel extends BaseModel {
         }
     }
 
-    public function getProfileIcon($user_id) {
+    public function getProfilePictureCropped($user_id) {
         try {
-            $profileIcon = DB::table($this->table)
+            $profilePictures = DB::table($this->table)
                 ->where('id', $user_id)
-                ->select('profile_icon_pass')
+                ->select('profile_picture_cropped_1', 'profile_picture_cropped_2', 'profile_picture_cropped_3')
                 ->get();
-            return $profileIcon;
+            return $profilePictures;
         } catch (Exception $e) {
             throw new ExpandException($e->getMessage(), config('ErrorConst.sqlError.code'));
         }
     }
 
-    public function updateProfileIcon($user_id, $profileIconPass) {
+    public function updateProfilePicture($user_id, $profilePictureCroppedColumn, $profilePictureOriginalColumn, $profilePictureCroppedPass, $profilePictureOriginalPass) {
         try {
             DB::table($this->table)
                 ->where('id', $user_id)
                 ->update([
-                    'profile_icon_pass' => $profileIconPass
+                    $profilePictureCroppedColumn => $profilePictureCroppedPass,
+                    $profilePictureOriginalColumn => $profilePictureOriginalPass
                 ]);
             return;
         } catch (Exception $e) {

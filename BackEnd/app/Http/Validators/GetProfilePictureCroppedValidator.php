@@ -8,7 +8,7 @@ use App\Exceptions\ExpandException;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 
-class GetProfileIConValidator extends BaseValidator {
+class GetProfilePictureCroppedValidator extends BaseValidator {
     private $parameterRule;
 
     public function __construct() {

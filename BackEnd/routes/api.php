@@ -5,8 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CreateUserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\SetUserBasicProfileController;
-use App\Http\Controllers\GetProfileIconController;
-use App\Http\Controllers\SetProfileIconController;
+use App\Http\Controllers\GetProfilePictureCroppedController;
+use App\Http\Controllers\SetProfilePictureController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,8 +35,8 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::get('/logout', [AuthController::class, 'logout']);
     Route::get('/getUserBasicProfile', [AuthController::class, 'getUserBasicProfile']);
     Route::post('/setUserBasicProfile', SetUserBasicProfileController::class);
-    Route::post('/getProfileIcon', GetProfileIconController::class);
-    Route::post('/setProfileIcon', SetProfileIconController::class);
+    Route::post('/getProfilePictureCropped', GetProfilePictureCroppedController::class);
+    Route::post('/setProfilePicture', SetProfilePictureController::class);
 });
 
 Route::middleware(['WBE'])->group(function() {
