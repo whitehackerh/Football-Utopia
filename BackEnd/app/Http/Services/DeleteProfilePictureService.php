@@ -15,9 +15,9 @@ class DeleteProfilePictureService extends BaseService {
             $user_id = $request->input('user_id');
             $profilePictureNo = $request->input('profilePictureNo');
             $profilePictureDirectory = 'user/' . $user_id . '/profilePictures';
-            $profilePicutreCroppedName = 'profilePictureCropped' . $profilePictureNo . '.png';
+            $profilePictureCroppedName = 'profilePictureCropped' . $profilePictureNo . '.png';
             $profilePictureOriginalName = 'profilePictureOriginal' . $profilePictureNo . '.png';
-            Storage::delete($profilePictureDirectory . '/' . $profilePicutreCroppedName);
+            Storage::delete($profilePictureDirectory . '/' . $profilePictureCroppedName);
             Storage::delete($profilePictureDirectory . '/' . $profilePictureOriginalName);
             
             $profilePictureCroppedColumn = 'profile_picture_cropped_' . $profilePictureNo;

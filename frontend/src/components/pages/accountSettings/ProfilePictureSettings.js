@@ -12,9 +12,7 @@ import { ItemPreviewWithCrop } from "../../modules/crop/CropImage";
 
 const ProfilePictureSettings = () => {
     const previewMethodsRef = useRef();
-    const [profilePicutreCropped1Pass, setProfilePictureCropped1Pass] = useState(null);
-    const [profilePicutreCropped2Pass, setProfilePictureCropped2Pass] = useState(null);
-    const [profilePicutreCropped3Pass, setProfilePictureCropped3Pass] = useState(null);
+    const [profilePicturesCropped, setProfilePicturesCropped] = useState({profilePictureCropped1: '', profilePictureCropped2: '', profilePictureCropped3: ''});
     requestHeaders.Authorization = `${localStorage.getItem('token_type')} ${localStorage.getItem('access_token')}`;
     const date= Date.now();
 
@@ -28,19 +26,19 @@ const ProfilePictureSettings = () => {
         )
         .then((res) => {
             if (!res.data.data.profilePictureCropped1) {
-                setProfilePictureCropped1Pass(noImage);
+                setProfilePicturesCropped((prevState) => ({ ...prevState, profilePictureCropped1: noImage }));
             } else {
-                setProfilePictureCropped1Pass('../../storage/' + deleteBackSlash(res.data.data.profilePictureCropped1));
+                setProfilePicturesCropped((prevState) => ({ ...prevState, profilePictureCropped1: '../../storage/' + deleteBackSlash(res.data.data.profilePictureCropped1) }));
             }
             if (!res.data.data.profilePictureCropped2) {
-                setProfilePictureCropped2Pass(noImage);
+                setProfilePicturesCropped((prevState) => ({ ...prevState, profilePictureCropped2: noImage }));
             } else {
-                setProfilePictureCropped2Pass('../../storage/' + deleteBackSlash(res.data.data.profilePictureCropped2));
+                setProfilePicturesCropped((prevState) => ({ ...prevState, profilePictureCropped2: '../../storage/' + deleteBackSlash(res.data.data.profilePictureCropped2) }));
             }
             if (!res.data.data.profilePictureCropped3) {
-                setProfilePictureCropped3Pass(noImage);
+                setProfilePicturesCropped((prevState) => ({ ...prevState, profilePictureCropped3: noImage }));
             } else {
-                setProfilePictureCropped3Pass('../../storage/' + deleteBackSlash(res.data.data.profilePictureCropped3));
+                setProfilePicturesCropped((prevState) => ({ ...prevState, profilePictureCropped3: '../../storage/' + deleteBackSlash(res.data.data.profilePictureCropped3) }));
             }
         });
     }
@@ -52,13 +50,13 @@ const ProfilePictureSettings = () => {
         .then(() => {
             switch (profilePictureNo) {
                 case 1:
-                    setProfilePictureCropped1Pass(noImage);
+                    setProfilePicturesCropped((prevState) => ({ ...prevState, profilePictureCropped1: noImage }));
                     break;
                 case 2:
-                    setProfilePictureCropped2Pass(noImage);
+                    setProfilePicturesCropped((prevState) => ({ ...prevState, profilePictureCropped2: noImage }));
                     break;
                 case 3:
-                    setProfilePictureCropped3Pass(noImage);
+                    setProfilePicturesCropped((prevState) => ({ ...prevState, profilePictureCropped3: noImage }));
                     break;
             }
         })
@@ -94,7 +92,7 @@ const ProfilePictureSettings = () => {
                     multiple={false}
                 >
                     <div className="ProfilePicture1" style={profilePictureSettings}>
-                        <img src={profilePicutreCropped1Pass + "?" + date} alt="picture" style={croppedStyle}></img><br></br>
+                        <img src={profilePicturesCropped.profilePictureCropped1 + "?" + date} alt="picture" style={croppedStyle}></img><br></br>
                         <UploadButton>SETTINGS</UploadButton>
                         <button style={deleteButtonStyle} onClick={() => deleteProfilePicture(1)}>DELETE</button>
                         <br />
@@ -113,7 +111,7 @@ const ProfilePictureSettings = () => {
                     multiple={false}
                 >
                     <div className="ProfilePicture2" style={profilePictureSettings}>
-                        <img src={profilePicutreCropped2Pass + "?" + date} alt="picture" style={croppedStyle}></img><br></br>
+                        <img src={profilePicturesCropped.profilePictureCropped2 + "?" + date} alt="picture" style={croppedStyle}></img><br></br>
                         <UploadButton>SETTINGS</UploadButton>
                         <button style={deleteButtonStyle} onClick={() => deleteProfilePicture(2)}>DELETE</button>
                         <br />
@@ -132,7 +130,7 @@ const ProfilePictureSettings = () => {
                     multiple={false}
                 >
                     <div className="ProfilePicture3" style={profilePictureSettings}>
-                        <img src={profilePicutreCropped3Pass + "?" + date} alt="picture" style={croppedStyle}></img><br></br>
+                        <img src={profilePicturesCropped.profilePictureCropped3 + "?" + date} alt="picture" style={croppedStyle}></img><br></br>
                         <UploadButton>SETTINGS</UploadButton>
                         <button style={deleteButtonStyle} onClick={() => deleteProfilePicture(3)}>DELETE</button>
                         <br />
