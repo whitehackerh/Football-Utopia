@@ -65,10 +65,10 @@ import {
     };
 
     /* API REQUEST */
-    function SetProfilePicture(croppedPicture, originalPicture, multipartFormDataParam, profilePictureNo) {
+    function SetProfilePicture(croppedPicture, originalPicture, multipartFormDataParam, profilePictureNumber) {
         const submitData = new FormData();
         submitData.append("user_id", localStorage.getItem('user_id'));
-        submitData.append("profilePictureNo", profilePictureNo);
+        submitData.append("profilePictureNumber", profilePictureNumber);
         submitData.append("croppedPicture", croppedPicture);
         submitData.append("originalPicture", originalPicture)
         withTokenRequest.post('/setProfilePicture', submitData,
@@ -147,7 +147,7 @@ import {
 
             switch (api) {
                 case 'setProfilePicture':
-                    SetProfilePicture(requestData.items[0].file, originalBlob, multipartFormData, distinctiveParam.profilePictureNo);
+                    SetProfilePicture(requestData.items[0].file, originalBlob, multipartFormData, distinctiveParam.profilePictureNumber);
                     distinctiveParam.distinctiveFunc();
                     break;
                 default:

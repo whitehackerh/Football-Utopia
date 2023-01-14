@@ -14,7 +14,7 @@ class SetProfilePictureValidator extends BaseValidator {
     public function __construct() {
         $this->parameterRule = [
             'user_id' => ['required', 'integer'],
-            'profilePictureNo' => ['required', 'integer']
+            'profilePictureNumber' => ['required', 'integer']
         ];
     }
 

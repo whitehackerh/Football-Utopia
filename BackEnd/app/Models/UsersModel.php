@@ -51,4 +51,16 @@ class UsersModel extends BaseModel {
             throw new ExpandException($e->getMessage(), config('ErrorConst.sqlError.code'));
         }
     }
+
+    public function getProfilePictureOriginal($user_id, $profilePictureOriginalColumn) {
+        try {
+            $profilePictureOriginal = DB::table($this->table)
+                ->where('id', $user_id)
+                ->select($profilePictureOriginalColumn)
+                ->get();
+            return $profilePictureOriginal;
+        } catch (Exception $e) {
+            throw new ExpandException($e->getMessage(), config('ErrorConst.sqlError.code'));
+        }
+    }
 }

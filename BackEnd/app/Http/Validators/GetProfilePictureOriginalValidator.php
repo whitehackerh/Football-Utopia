@@ -8,7 +8,7 @@ use App\Exceptions\ExpandException;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 
-class DeleteProfilePictureValidator extends BaseValidator {
+class GetProfilePictureOriginalValidator extends BaseValidator {
     private $parameterRule;
 
     public function __construct() {

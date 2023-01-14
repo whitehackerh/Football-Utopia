@@ -13,15 +13,15 @@ class DeleteProfilePictureService extends BaseService {
     public function service(Request $request) {
         try {
             $user_id = $request->input('user_id');
-            $profilePictureNo = $request->input('profilePictureNo');
+            $profilePictureNumber = $request->input('profilePictureNumber');
             $profilePictureDirectory = 'user/' . $user_id . '/profilePictures';
-            $profilePictureCroppedName = 'profilePictureCropped' . $profilePictureNo . '.png';
-            $profilePictureOriginalName = 'profilePictureOriginal' . $profilePictureNo . '.png';
+            $profilePictureCroppedName = 'profilePictureCropped' . $profilePictureNumber . '.png';
+            $profilePictureOriginalName = 'profilePictureOriginal' . $profilePictureNumber . '.png';
             Storage::delete($profilePictureDirectory . '/' . $profilePictureCroppedName);
             Storage::delete($profilePictureDirectory . '/' . $profilePictureOriginalName);
             
-            $profilePictureCroppedColumn = 'profile_picture_cropped_' . $profilePictureNo;
-            $profilePictureOriginalColumn = 'profile_picture_original_' . $profilePictureNo;
+            $profilePictureCroppedColumn = 'profile_picture_cropped_' . $profilePictureNumber;
+            $profilePictureOriginalColumn = 'profile_picture_original_' . $profilePictureNumber;
             $model = new UsersModel();
             $model->updateProfilePicture($user_id, $profilePictureCroppedColumn, $profilePictureOriginalColumn, null, null);
             return null;
