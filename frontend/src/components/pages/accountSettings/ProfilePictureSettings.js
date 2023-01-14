@@ -21,7 +21,7 @@ const ProfilePictureSettings = () => {
     }, []);
 
     function getProfilePictureCropped() {
-        withTokenRequest.post('./getProfilePictureCropped', {user_id: localStorage.getItem('user_id')},
+        withTokenRequest.post('/getProfilePictureCropped', {user_id: localStorage.getItem('user_id')},
             {headers: requestHeaders}
         )
         .then((res) => {
@@ -43,12 +43,12 @@ const ProfilePictureSettings = () => {
         });
     }
 
-    function deleteProfilePicture(profilePictureNo) {
-        withTokenRequest.post('./deleteProfilePicture', {user_id: localStorage.getItem('user_id'), profilePictureNo: profilePictureNo},
+    function deleteProfilePicture(profilePictureNumber) {
+        withTokenRequest.post('/deleteProfilePicture', {user_id: localStorage.getItem('user_id'), profilePictureNumber: profilePictureNumber},
             {headers: requestHeaders}
         )
         .then(() => {
-            switch (profilePictureNo) {
+            switch (profilePictureNumber) {
                 case 1:
                     setProfilePicturesCropped((prevState) => ({ ...prevState, profilePictureCropped1: noImage }));
                     break;
@@ -58,6 +58,36 @@ const ProfilePictureSettings = () => {
                 case 3:
                     setProfilePicturesCropped((prevState) => ({ ...prevState, profilePictureCropped3: noImage }));
                     break;
+            }
+        })
+    }
+
+    function getProfilePictureOriginal(profilePictureNumber) {
+        switch (profilePictureNumber) {
+            case 1:
+                if (profilePicturesCropped.profilePictureCropped1 == noImage) {
+                    return;
+                }
+                break;
+            case 2:
+                if (profilePicturesCropped.profilePictureCropped2 == noImage) {
+                    return;
+                }
+                break;
+            case 3:
+                if (profilePicturesCropped.profilePictureCropped3 == noImage) {
+                    return;
+                }
+                break;
+        }
+        withTokenRequest.post('/getProfilePictureOriginal', {user_id: localStorage.getItem('user_id'), profilePictureNumber: profilePictureNumber},
+            {headers: requestHeaders}
+        )
+        .then((res) => {
+            if (!res.data.data.profilePictureOriginal) {
+                return;
+            } else {
+                window.open('../../storage/' + deleteBackSlash(res.data.data.profilePictureOriginal));
             }
         })
     }
@@ -77,7 +107,8 @@ const ProfilePictureSettings = () => {
 
     const croppedStyle = {
         width: '200px',
-        height: '200px'
+        height: '200px',
+        cursor: 'pointer'
     }
 
     const deleteButtonStyle = {
@@ -92,7 +123,9 @@ const ProfilePictureSettings = () => {
                     multiple={false}
                 >
                     <div className="ProfilePicture1" style={profilePictureSettings}>
-                        <img src={profilePicturesCropped.profilePictureCropped1 + "?" + date} alt="picture" style={croppedStyle}></img><br></br>
+                        <img src={profilePicturesCropped.profilePictureCropped1 + "?" + date} alt="picture" style={croppedStyle}
+                            onClick={() => getProfilePictureOriginal(1)}>
+                        </img><br></br>
                         <UploadButton>SETTINGS</UploadButton>
                         <button style={deleteButtonStyle} onClick={() => deleteProfilePicture(1)}>DELETE</button>
                         <br />
@@ -101,7 +134,7 @@ const ProfilePictureSettings = () => {
                         previewComponentProps={{ 
                             previewMethods: previewMethodsRef, aspectProps: 1 / 1, api: 'setProfilePicture', 
                             aspectControllButtonsVisible: false, inputTextVisible: false,
-                            distinctiveParam: {profilePictureNo: 1, distinctiveFunc: getProfilePictureCropped}
+                            distinctiveParam: {profilePictureNumber: 1, distinctiveFunc: getProfilePictureCropped}
                         }}
                         previewMethodsRef={previewMethodsRef}
                     />
@@ -111,7 +144,9 @@ const ProfilePictureSettings = () => {
                     multiple={false}
                 >
                     <div className="ProfilePicture2" style={profilePictureSettings}>
-                        <img src={profilePicturesCropped.profilePictureCropped2 + "?" + date} alt="picture" style={croppedStyle}></img><br></br>
+                        <img src={profilePicturesCropped.profilePictureCropped2 + "?" + date} alt="picture" style={croppedStyle}
+                            onClick={() => getProfilePictureOriginal(2)}>
+                        </img><br></br>
                         <UploadButton>SETTINGS</UploadButton>
                         <button style={deleteButtonStyle} onClick={() => deleteProfilePicture(2)}>DELETE</button>
                         <br />
@@ -120,7 +155,7 @@ const ProfilePictureSettings = () => {
                         previewComponentProps={{ 
                             previewMethods: previewMethodsRef, aspectProps: 1 / 1, api: 'setProfilePicture', 
                             aspectControllButtonsVisible: false, inputTextVisible: false,
-                            distinctiveParam: {profilePictureNo: 2, distinctiveFunc: getProfilePictureCropped}
+                            distinctiveParam: {profilePictureNumber: 2, distinctiveFunc: getProfilePictureCropped}
                         }}
                         previewMethodsRef={previewMethodsRef}
                     />
@@ -130,7 +165,9 @@ const ProfilePictureSettings = () => {
                     multiple={false}
                 >
                     <div className="ProfilePicture3" style={profilePictureSettings}>
-                        <img src={profilePicturesCropped.profilePictureCropped3 + "?" + date} alt="picture" style={croppedStyle}></img><br></br>
+                        <img src={profilePicturesCropped.profilePictureCropped3 + "?" + date} alt="picture" style={croppedStyle}
+                            onClick={() => getProfilePictureOriginal(3)}>
+                        </img><br></br>
                         <UploadButton>SETTINGS</UploadButton>
                         <button style={deleteButtonStyle} onClick={() => deleteProfilePicture(3)}>DELETE</button>
                         <br />
@@ -139,7 +176,7 @@ const ProfilePictureSettings = () => {
                         previewComponentProps={{ 
                             previewMethods: previewMethodsRef, aspectProps: 1 / 1, api: 'setProfilePicture', 
                             aspectControllButtonsVisible: false, inputTextVisible: false,
-                            distinctiveParam: {profilePictureNo: 3, distinctiveFunc: getProfilePictureCropped}
+                            distinctiveParam: {profilePictureNumber: 3, distinctiveFunc: getProfilePictureCropped}
                         }}
                         previewMethodsRef={previewMethodsRef}
                     />

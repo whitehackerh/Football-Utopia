@@ -8,6 +8,7 @@ use App\Http\Controllers\SetUserBasicProfileController;
 use App\Http\Controllers\GetProfilePictureCroppedController;
 use App\Http\Controllers\SetProfilePictureController;
 use App\Http\Controllers\DeleteProfilePictureController;
+use App\Http\Controllers\GetProfilePictureOriginalController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,6 +40,7 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::post('/getProfilePictureCropped', GetProfilePictureCroppedController::class);
     Route::post('/setProfilePicture', SetProfilePictureController::class);
     Route::post('/deleteProfilePicture', DeleteProfilePictureController::class);
+    Route::post('/getProfilePictureOriginal', GetProfilePictureOriginalController::class);
 });
 
 Route::middleware(['WBE'])->group(function() {
