@@ -73,7 +73,8 @@ const HomeBar = () => {
 
   return (
     <Box>
-      <AppBar position="static" style={{background: "#00FF00"}}>
+      {/* <AppBar position="static" style={{"background-color": "transparent"}}> */}
+      <AppBar position="static" style={{background: "#00ff00"}}>
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             <img src={Logo} alt="picture" onClick={() => navigate('/')} style={{cursor: "pointer"}}/>

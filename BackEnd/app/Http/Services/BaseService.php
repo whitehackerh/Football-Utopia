@@ -16,8 +16,4 @@ class BaseService {
     public function validateConsistency() {
         
     }
-
-    public function formatResponseData($collection) {
-        
-    }
 }
