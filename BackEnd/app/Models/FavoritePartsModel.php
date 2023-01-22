@@ -6,22 +6,14 @@ use Illuminate\Support\Facades\DB;
 use App\Exceptions\ExpandException;
 use Exception;
 
-class BaseModel {
-    /**
-     * select *
-     */
-    public function get($table) {
+class FavoritePartsModel extends BaseModel {
+    private $table = 'favorite_parts';
+
+    public function getRecords() {
         try {
-            return DB::table($table)->get();
+            return parent::get($this->table);
         } catch (Exception $e) {
             throw new ExpandException($e->getMessage(), config('ErrorConst.sqlError.code'));
         }
-    }
-
-    /**
-     * select count(*)
-     */
-    public function getCount() {
-        
     }
 }
