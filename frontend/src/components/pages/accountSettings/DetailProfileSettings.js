@@ -1,6 +1,7 @@
 import SideBar_AccountSettings from './SideBar_AccountSettings'; 
 import { useEffect, useState } from 'react';
 import { withTokenRequest, requestHeaders } from '../../../http';
+import { noTokenRequest } from '../../../http';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import { styled, lighten, darken } from '@mui/system';
@@ -28,8 +29,7 @@ const DetailProfileSettings = () => {
     }, []);
 
     function getMasterData() {
-        withTokenRequest.get('/getMasterDataForProfile', {
-            headers: requestHeaders
+        noTokenRequest.get('/getMasterDataForProfile', {
         }).then((res) => {
             setMasterData(res.data.data);
         });
@@ -340,9 +340,6 @@ const DetailProfileSettings = () => {
         display: 'flex',
         margin: '10px'
     }
-    const marginValue = {
-        margin: '10px'
-    }
     const marginRightValue = {
         marginRight: '10px'
     }
@@ -611,7 +608,7 @@ const DetailProfileSettings = () => {
                             options={masterData.favorite_parts}
                             getOptionLabel={(option) => option.name}
                             sx={{ width: 300 }}
-                            renderInput={(params) => <TextField {...params} label="Favorite Parts of Football" />}
+                            renderInput={(params) => <TextField {...params} label="Favorite Part of Football" />}
                             onChange={(event, newValue) => {handleChange(event, newValue, 'setFavoritePart', null);}}
                         >                        
                         </Autocomplete>

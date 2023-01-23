@@ -1,30 +1,44 @@
 import { noTokenRequest } from '../../../http';
 import { getUserBasicProfile } from '../../../utils/function';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { nations } from '../../modules/const/nations'; 
+import { years } from '../../modules/const/years'; 
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import Select from "@mui/material/Select";
-import { Autocomplete, MenuItem } from '@mui/material';
-import InputLabel from "@mui/material/InputLabel";
+import { Autocomplete } from '@mui/material';
 
 export default function Signup() {
     const navigate = useNavigate();
+    const [masterData, setMasterData] = useState(null);
     const [values, setValues] = useState({
         user_name: '',
         name: '',
         email: '',
         password: '',
         age: '',
-        gender: '',
-        nationality: ''
     });
+    const [gender, setGender] = useState({id: null, name: ''});
+    const [nationality, setNationality] = useState({id: null, name: ''});
+
+    useEffect(() => {
+        getMasterData();
+    }, []);
+
+    function getMasterData() {
+        noTokenRequest.get('/getMasterDataForProfile', {
+        }).then((res) => {
+            setMasterData(res.data.data);
+        });
+    }
     
-    function handleChange(e) {
+    function handleChange(e, newValue) {
         const target = e.target;
-        const value = target.value;
+        let value = target.value;
         const name = target.name;
+        if (newValue != null) {
+            setValues({...values, age: newValue});
+            return;
+        }
         setValues({ ...values, [name]: value });
     }
 
@@ -35,8 +49,8 @@ export default function Signup() {
             email: values.email, 
             password: values.password,
             age: values.age,
-            gender: values.gender,
-            nationality: values.nationality
+            gender: gender.id,
+            nationality: nationality.id
         })
         .then((res) => {
             localStorage.setItem('access_token', res.data.access_token);
@@ -47,6 +61,12 @@ export default function Signup() {
         .catch((error) => {
             console.log(error);
         });
+    }
+    
+    if (masterData == null) {
+        return (
+            <div></div>
+        );
     }
 
     const registerUserForm = {
@@ -60,10 +80,17 @@ export default function Signup() {
             <TextField id="outlined-basic" label="Name" variant="outlined" name="name" value={values.name} onChange={handleChange}/><br /><br />
             <TextField id="outlined-basic" label="Email" variant="outlined" name="email" value={values.email} onChange={handleChange}/><br /><br />
             <TextField id="outlined-basic" label="Password" variant="outlined" name="password" value={values.password} onChange={handleChange}/><br /><br />
-            <TextField id="outlined-basic" label="Age" variant="outlined" name="age" value={values.age} onChange={handleChange}/><br /><br />
-            <InputLabel id="gender-select-label">Gender</InputLabel>
-            <Select style={{width: "120px"}} labelId="gender-select-label" id="outlined-basic" label="Gender" name="gender" value={values.gender} onChange={handleChange}><MenuItem value="men">men</MenuItem><MenuItem value="women">women</MenuItem></Select><br /><br /><br />
-            <Autocomplete options={nations} renderInput={(params => <TextField {...params} label="Nationality" />)} value={values.nationality} onChange={(event, newValue) => {setValues({ ...values, nationality: newValue });}} style={{ width: "240px"}}></Autocomplete>
+            <Autocomplete
+                id="age"
+                options={years}
+                value={values.age}
+                sx={{ width: 120 }}
+                renderInput={(params) => <TextField {...params} label="Age" />}
+                onChange={(e, newValue) => handleChange(e, newValue)}
+            >                        
+            </Autocomplete><br /><br />
+            <Autocomplete options={masterData.gender} getOptionLabel={(option) => option.name} sx={{ width: 240 }} renderInput={(params => <TextField {...params} label="Gender" />)} onChange={(event, newValue) => {setGender({ ...gender, id: newValue ? newValue.id : null, name: newValue ? newValue.name : '' });}} ></Autocomplete><br /><br />
+            <Autocomplete options={masterData.nations} getOptionLabel={(option) => option.name} sx={{ width: 240 }} renderInput={(params => <TextField {...params} label="Nationality" />)} onChange={(event, newValue) => {setNationality({ ...nationality, id: newValue ? newValue.id : null, name: newValue ? newValue.name : '' });}} ></Autocomplete><br /><br />
             <Button variant="contained" style={{ margin: "10px" }} onClick={registerUser}>Register</Button>
         </div>
     );
