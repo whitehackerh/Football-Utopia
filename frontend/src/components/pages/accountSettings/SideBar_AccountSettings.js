@@ -13,7 +13,8 @@ const SideBar_AccountSettings = () => {
         <div style={style}>
             <Link to="/basicProfileSettings">Basic Profile</Link><br></br><br></br>
             <Link to="/profilePictureSettings">Profile Picture</Link><br></br><br></br>
-            <Link to="/detailProfileSettings">Detail Profile</Link> 
+            <Link to="/detailProfileSettings">Detail Profile</Link><br></br><br></br>
+            <Link to="/filterSettings">Filter</Link> 
         </div>
     )
 }

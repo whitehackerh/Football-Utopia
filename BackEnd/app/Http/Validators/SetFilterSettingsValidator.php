@@ -8,13 +8,17 @@ use App\Exceptions\ExpandException;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 
-class SetUserDetailProfileValidator extends BaseValidator {
+class SetFilterSettingsValidator extends BaseValidator {
     private $parameterRule;
 
     public function __construct() {
         $this->parameterRule = [
             'user_id' => ['required', 'integer'],
+            'age.min' => ['present', 'numeric', 'lte:age.max', 'nullable'],
+            'age.max' => ['present', 'numeric', 'gte:age.min', 'nullable'],
             'looking_for' => ['present', 'integer', 'nullable'],
+            'gender' => ['present', 'integer', 'nullable'],
+            'nationality' => ['present', 'integer', 'nullable'],
             'favorite_leagues' => ['required', 'array'],
             'favorite_leagues.favorite_league' => ['present', 'nullable', 'integer',
                 'different:favorite_leagues.second_favorite_league', 'different:favorite_leagues.third_favorite_league',
@@ -78,7 +82,6 @@ class SetUserDetailProfileValidator extends BaseValidator {
             'favorite_part' => ['present', 'nullable', 'integer'],
             'favorite_football_game' => ['present', 'nullable', 'integer'],
             'playing_experience' => ['present', 'nullable', 'integer'],
-            'about_me' => ['present', 'nullable', 'string']
         ];
     }
 

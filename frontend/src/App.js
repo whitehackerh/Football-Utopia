@@ -14,6 +14,7 @@ import User from "./components/pages/user/User";
 import BasicProfileSettings from "./components/pages/accountSettings/BasicProfileSettings";
 import ProfilePictureSettings from "./components/pages/accountSettings/ProfilePictureSettings";
 import DetailProfileSettings from "./components/pages/accountSettings/DetailProfileSettings";
+import FilterSettings from "./components/pages/accountSettings/FilterSettings";
 
 const Top = () => {
   // リンクによるページ遷移
@@ -50,6 +51,7 @@ const App = () => {
           <Route path="/basicProfileSettings" element={<BasicProfileSettings />} />
           <Route path="/profilePictureSettings" element={<ProfilePictureSettings />} />
           <Route path="/detailProfileSettings" element={<DetailProfileSettings />} />
+          <Route path="/filterSettings" element={<FilterSettings />} />
         </Route>
       </Routes>
     </BrowserRouter>
