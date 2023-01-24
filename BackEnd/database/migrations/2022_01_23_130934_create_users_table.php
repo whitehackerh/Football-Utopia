@@ -30,8 +30,8 @@ return new class extends Migration
             $table->string('profile_picture_cropped_3')->nullable();
             $table->string('profile_picture_original_3')->nullable();
             $table->integer('age')->nullable();
-            $table->string('gender')->nullable();
-            $table->string('nationality')->nullable();
+            $table->integer('gender')->nullable();
+            $table->integer('nationality')->nullable();
             $table->tinyInteger('admin_flag')->nullable();
             $table->tinyInteger('delete_flag')->nullable();
             $table->softDeletesTz($column = 'deleted_at', $precision = 0);

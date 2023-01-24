@@ -26,6 +26,27 @@ class UsersModel extends BaseModel {
         }
     }
 
+    public function getRecordsWithName($user_id) {
+        try {
+            $record = DB::table("$this->table as u")
+                ->select(
+                    'u.gender', 'ge.name as gender_name',
+                    'u.nationality', 'na.name as nationality_name'
+                )
+                ->where('u.id', $user_id)
+                ->leftJoin('gender as ge', function($join) {
+                    $join->on('ge.id', '=', 'u.gender');
+                })
+                ->leftJoin('nations as na', function($join) {
+                    $join->on('na.id', '=', 'u.nationality');
+                })
+                ->get();
+            return $record;
+        } catch (Exception $e) {
+            throw new ExpandException($e->getMessage(), config('ErrorConst.sqlError.code'));
+        }
+    }
+
     public function getProfilePictureCropped($user_id) {
         try {
             $profilePictures = DB::table($this->table)

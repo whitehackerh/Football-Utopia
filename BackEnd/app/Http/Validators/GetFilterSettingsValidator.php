@@ -8,18 +8,12 @@ use App\Exceptions\ExpandException;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 
-class SetUserBasicProfileValidator extends BaseValidator {
+class GetFilterSettingsValidator extends BaseValidator {
     private $parameterRule;
-    
+
     public function __construct() {
         $this->parameterRule = [
-            'user_name' => ['required', 'string', 'max:255'],
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255'],
-            'user_id' => ['integer'],
-            'age' => ['required', 'numeric'],
-            'gender' => ['required', 'numeric'],
-            'nationality' => ['required', 'numeric']
+            'user_id' => ['required', 'integer']
         ];
     }
 

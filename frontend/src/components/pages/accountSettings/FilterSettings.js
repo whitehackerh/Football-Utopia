@@ -5,13 +5,15 @@ import { noTokenRequest } from '../../../http';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import { styled, lighten, darken } from '@mui/system';
-import TextareaAutosize from '@mui/base/TextareaAutosize';
 import Button from "@mui/material/Button";
 import { years } from '../../modules/const/years'; 
 
-const DetailProfileSettings = () => {
+const FilterSettings = () => {
     const [masterData, setMasterData] = useState(null);
     const [lookingFor, setLookingFor] = useState(null);
+    const [ageRange, setAgeRange] = useState(null);
+    const [gender, setGender] = useState(null);
+    const [nationality, setNationality] = useState(null);
     const [favoriteLeagues, setFavoriteLeagues] = useState(null);
     const [favoriteClubteams, setFavoriteClubteams] = useState(null);
     const [favoritePlayers, setFavoritePlayers] = useState(null);
@@ -20,12 +22,11 @@ const DetailProfileSettings = () => {
     const [favoritePart, setFavoritePart] = useState(null);
     const [favoriteFootballGame, setFavoriteFootballGame] = useState(null);
     const [playingExperience, setPlayingExperience] = useState(null);
-    const [aboutMe, setAboutMe] = useState(null);
     requestHeaders.Authorization = `${localStorage.getItem('token_type')} ${localStorage.getItem('access_token')}`;
 
     useEffect(() => {
         getMasterData();
-        getUserDetailProfile();
+        getFilterSettings();
     }, []);
 
     function getMasterData() {
@@ -35,8 +36,8 @@ const DetailProfileSettings = () => {
         });
     }
 
-    function getUserDetailProfile() {
-        withTokenRequest.post('/getUserDetailProfile', {
+    function getFilterSettings() {
+        withTokenRequest.post('/getFilterSettings', {
             user_id: localStorage.getItem('user_id')
         }, {
             headers: requestHeaders
@@ -45,6 +46,21 @@ const DetailProfileSettings = () => {
                 ...lookingFor,
                 id: res.data.data.looking_for.id ? res.data.data.looking_for.id : null,
                 name: res.data.data.looking_for.name ? res.data.data.looking_for.name : ''
+            });
+            setAgeRange({
+                ...ageRange,
+                minAge: res.data.data.age.min != null ? res.data.data.age.min : null,
+                maxAge: res.data.data.age.max ? res.data.data.age.max : null
+            });
+            setGender({
+                ...gender,
+                id: res.data.data.gender.id ? res.data.data.gender.id : null,
+                name: res.data.data.gender.name ? res.data.data.gender.name : ''
+            });
+            setNationality({
+                ...nationality,
+                id: res.data.data.nationality.id ? res.data.data.nationality.id : null,
+                name: res.data.data.nationality.name ? res.data.data.nationality.name : ''
             });
             setFavoriteLeagues({
                 ...favoriteLeagues,
@@ -132,11 +148,10 @@ const DetailProfileSettings = () => {
                 name: res.data.data.favorite_football_game.name ? res.data.data.favorite_football_game.name : '',
             });
             setPlayingExperience(res.data.data.playing_experience);
-            setAboutMe(res.data.data.about_me);
         });
     }
 
-    if (masterData == null || lookingFor == null || favoriteLeagues == null 
+    if (masterData == null || lookingFor == null || gender == null || nationality == null || favoriteLeagues == null 
         || favoriteClubteams == null || favoritePlayers == null || favoriteCoaches == null  
         || favoritePositions == null || favoritePart == null || favoriteFootballGame == null
     ) {
@@ -162,7 +177,7 @@ const DetailProfileSettings = () => {
             category: category, ...option
         };
     })
-
+    
     function searchLeague(league_id) {
         let target = '';
         masterData.leagues.forEach(leagues => {
@@ -206,6 +221,26 @@ const DetailProfileSettings = () => {
             case 'setLookingFor':
                 setLookingFor({
                     ...lookingFor,
+                    id: newValue ? newValue.id : null,
+                    name: newValue ? newValue.name : ''
+                });
+                break;
+            case 'setAgeRange':
+                setAgeRange({
+                    ...ageRange,
+                    [setterParams]: newValue 
+                });
+                break;
+            case 'setGender':
+                setGender({
+                    ...gender,
+                    id: newValue ? newValue.id : null,
+                    name: newValue ? newValue.name : ''
+                });
+                break;
+            case 'setNationality':
+                setNationality({
+                    ...nationality,
                     id: newValue ? newValue.id : null,
                     name: newValue ? newValue.name : ''
                 });
@@ -272,18 +307,21 @@ const DetailProfileSettings = () => {
             case 'setPlayingExperience':
                 setPlayingExperience(newValue);
                 break;
-            case 'setAboutMe':
-                setAboutMe(value);
-                break;
             default:
                 break;
         }
     }
 
-    function setUserDetailProfile() {
-        withTokenRequest.post('/setUserDetailProfile', {
+    function setFilterSettings() {
+        withTokenRequest.post('/setFilterSettings', {
             user_id: localStorage.getItem('user_id'),
             looking_for: lookingFor.id,
+            age: {
+                min: ageRange.minAge,
+                max: ageRange.maxAge
+            },
+            gender: gender.id,
+            nationality: nationality.id,
             favorite_leagues: {
                 favorite_league: favoriteLeagues.favorite_league.id,
                 second_favorite_league: favoriteLeagues.second_favorite_league.id,
@@ -312,12 +350,11 @@ const DetailProfileSettings = () => {
             favorite_part: favoritePart.id,
             favorite_football_game: favoriteFootballGame.id,
             playing_experience: playingExperience,
-            about_me: aboutMe
         }, {
             headers: requestHeaders
         })
         .then(() => {
-            getUserDetailProfile();
+            getFilterSettings();
         })
         .catch((error) => {
             console.log(error);
@@ -330,7 +367,7 @@ const DetailProfileSettings = () => {
         margin: '10px',
         width: 'calc(100% - 362px)'
     }
-    const detailForm = {
+    const filterForm = {
         margin: "50px"
     }
     const GroupItems = styled('ul')({
@@ -346,9 +383,9 @@ const DetailProfileSettings = () => {
 
     return (
         <div>
-            <SideBar_AccountSettings />
+            <SideBar_AccountSettings></SideBar_AccountSettings>
             <div style={mainContents}>
-                <div style={detailForm}>
+                <div style={filterForm}>
                     <div className="lookingFor" style={flexValue}>
                         <Autocomplete
                             id="lookingFor"
@@ -358,7 +395,55 @@ const DetailProfileSettings = () => {
                             getOptionLabel={(option) => option.name}
                             sx={{ width: 300 }}
                             renderInput={(params) => <TextField {...params} label="Looking for" />}
-                            onChange={(event, newValue) => {handleChange(event, newValue, 'setLookingFor', null);}}
+                            onChange={(event, newValue) => {handleChange(event, newValue, 'setLookingFor', 'lookingFor');}}
+                        >                        
+                        </Autocomplete>
+                    </div><br></br>
+                    <div className="ageRange" style={flexValue}>
+                        <Autocomplete
+                            id="minAge"
+                            style={marginRightValue}
+                            options={years}
+                            value={ageRange.minAge}
+                            sx={{ width: 300 }}
+                            renderInput={(params) => <TextField {...params} label="Min Age" />}
+                            onChange={(event, newValue) => {handleChange(event, newValue, 'setAgeRange', 'minAge');}}
+                        >                        
+                        </Autocomplete>
+                        <Autocomplete
+                            id="maxAge"
+                            style={marginRightValue}
+                            options={years}
+                            value={ageRange.maxAge}
+                            sx={{ width: 300 }}
+                            renderInput={(params) => <TextField {...params} label="Max Age" />}
+                            onChange={(event, newValue) => {handleChange(event, newValue, 'setAgeRange', 'maxAge');}}
+                        >                        
+                        </Autocomplete>
+                    </div><br></br>
+                    <div className="gender" style={flexValue}>
+                        <Autocomplete
+                            id="gender"
+                            style={marginRightValue}
+                            defaultValue={gender ? gender : ''}
+                            options={masterData.gender}
+                            getOptionLabel={(option) => option.name}
+                            sx={{ width: 300 }}
+                            renderInput={(params) => <TextField {...params} label="Gender" />}
+                            onChange={(event, newValue) => {handleChange(event, newValue, 'setGender', 'gender');}}
+                        >                        
+                        </Autocomplete>
+                    </div><br></br>
+                    <div className="nationality" style={flexValue}>
+                        <Autocomplete
+                            id="nationality"
+                            style={marginRightValue}
+                            defaultValue={nationality ? nationality : ''}
+                            options={masterData.nations}
+                            getOptionLabel={(option) => option.name}
+                            sx={{ width: 300 }}
+                            renderInput={(params) => <TextField {...params} label="Nationality" />}
+                            onChange={(event, newValue) => {handleChange(event, newValue, 'setNationality', 'nationality');}}
                         >                        
                         </Autocomplete>
                     </div><br></br>
@@ -609,7 +694,7 @@ const DetailProfileSettings = () => {
                             getOptionLabel={(option) => option.name}
                             sx={{ width: 300 }}
                             renderInput={(params) => <TextField {...params} label="Favorite Part of Football" />}
-                            onChange={(event, newValue) => {handleChange(event, newValue, 'setFavoritePart', null);}}
+                            onChange={(event, newValue) => {handleChange(event, newValue, 'setFavoritePart', 'favoritePart');}}
                         >                        
                         </Autocomplete>
                     </div><br></br>
@@ -622,7 +707,7 @@ const DetailProfileSettings = () => {
                             getOptionLabel={(option) => option.name}
                             sx={{ width: 300 }}
                             renderInput={(params) => <TextField {...params} label="Favorite Football Game" />}
-                            onChange={(event, newValue) => {handleChange(event, newValue, 'setFavoriteFootballGame', null);}}
+                            onChange={(event, newValue) => {handleChange(event, newValue, 'setFavoriteFootballGame', 'favoriteFootballGame');}}
                         >                        
                         </Autocomplete>
                     </div><br></br>
@@ -634,27 +719,15 @@ const DetailProfileSettings = () => {
                             value={playingExperience}
                             sx={{ width: 300 }}
                             renderInput={(params) => <TextField {...params} label="Playing Experience" />}
-                            onChange={(event, newValue) => {handleChange(event, newValue, 'setPlayingExperience', null);}}
+                            onChange={(event, newValue) => {handleChange(event, newValue, 'setPlayingExperience', 'playingExperience');}}
                         >                        
                         </Autocomplete>
                     </div><br></br>
-                    <div className="aboutMe" style={flexValue}>
-                        <TextareaAutosize
-                            maxRows={5}
-                            aria-label="maximum height"
-                            placeholder="About Me"
-                            defaultValue={aboutMe}
-                            value={aboutMe}
-                            onChange={(event, newValue) => {handleChange(event, newValue, 'setAboutMe', null);}}
-                            style={{ width: 1000 }}
-                        >
-                        </TextareaAutosize>
-                    </div><br></br>
-                    <Button variant="contained" style={flexValue} onClick={setUserDetailProfile}>SAVE</Button>
+                    <Button variant="contained" style={flexValue} onClick={setFilterSettings}>SAVE</Button>
                 </div>
             </div>
         </div>
     )
-}
+};
 
-export default DetailProfileSettings;
+export default FilterSettings;

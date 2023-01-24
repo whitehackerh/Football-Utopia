@@ -14,17 +14,19 @@ use App\Models\LookingForModel;
 use App\Models\PlayersModel;
 use App\Models\PositionsModel;
 use App\Models\FootballGamesModel;
+use App\Models\GenderModel;
+use App\Models\NationsModel;
 
 class GetMasterDataForProfileService extends BaseService {
     public function service(Request $request) {
         try {
             list($lookingForRecords, $leaguesRecords, $clubsRecords, 
                 $playersRecords, $coachesRecords, $favoritePartsRecords, 
-                $positionsRecords, $footballGamesRecords)
+                $positionsRecords, $footballGamesRecords, $genderRecords, $nationsRecords)
                 = $this->getRecords();
             $data = $this->formatResponseData($lookingForRecords, $leaguesRecords, $clubsRecords, 
                         $playersRecords, $coachesRecords, $favoritePartsRecords, 
-                        $positionsRecords, $footballGamesRecords);
+                        $positionsRecords, $footballGamesRecords, $genderRecords, $nationsRecords);
             return $data;
         } catch (Exception $e) {
             throw new ExpandException($e->getMessage, 400);
@@ -40,15 +42,19 @@ class GetMasterDataForProfileService extends BaseService {
         $favoritePartsModel = new FavoritePartsModel();
         $positionsModel = new PositionsModel();
         $footballGamesModel = new FootballGamesModel();
+        $genderModel = new genderModel();
+        $nationsModel = new NationsModel();
 
         return array($lookingForModel->getRecords(), $leaguesModel->getRecords(),
             $clubteamsModel->getRecords(), $playersModel->getRecords(), $coachesModel->getRecords(),
-            $favoritePartsModel->getRecords(), $positionsModel->getRecords(), $footballGamesModel->getRecords());
+            $favoritePartsModel->getRecords(), $positionsModel->getRecords(), $footballGamesModel->getRecords(),
+            $genderModel->getRecords(), $nationsModel->getRecords()
+        );
     }
 
     private function formatResponseData($lookingForRecords, $leaguesRecords, $clubteamsRecords, 
     $playersRecords, $coachesRecords, $favoritePartsRecords, 
-    $positionsRecords, $footballGamesRecords) {
+    $positionsRecords, $footballGamesRecords, $genderRecords, $nationsRecords) {
         $data = [];
         $data['looking_for'] = [];
         $data['leagues'] = [];
@@ -58,6 +64,8 @@ class GetMasterDataForProfileService extends BaseService {
         $data['favorite_parts'] = [];
         $data['positions'] = [];
         $data['football_games'] = [];
+        $data['gender'] = [];
+        $data['nations'] = [];
 
         foreach ($lookingForRecords as $record) {
             $temporary = [];
@@ -121,6 +129,20 @@ class GetMasterDataForProfileService extends BaseService {
             $temporary['id'] = $record->id;
             $temporary['name'] = $record->name;
             array_push($data['football_games'], $temporary);
+        }
+
+        foreach ($genderRecords as $record) {
+            $temporary = [];
+            $temporary['id'] = $record->id;
+            $temporary['name'] = $record->name;
+            array_push($data['gender'], $temporary);
+        }
+
+        foreach ($nationsRecords as $record) {
+            $temporary = [];
+            $temporary['id'] = $record->id;
+            $temporary['name'] = $record->name;
+            array_push($data['nations'], $temporary);
         }
 
         return $data;
