@@ -14,8 +14,8 @@ class SetFilterSettingsValidator extends BaseValidator {
     public function __construct() {
         $this->parameterRule = [
             'user_id' => ['required', 'integer'],
-            'age.min' => ['present', 'numeric', 'lte:age.max', 'nullable'],
-            'age.max' => ['present', 'numeric', 'gte:age.min', 'nullable'],
+            'age.min' => ['present', 'numeric', 'nullable'],
+            'age.max' => ['present', 'numeric', 'nullable'],
             'looking_for' => ['present', 'integer', 'nullable'],
             'gender' => ['present', 'integer', 'nullable'],
             'nationality' => ['present', 'integer', 'nullable'],
