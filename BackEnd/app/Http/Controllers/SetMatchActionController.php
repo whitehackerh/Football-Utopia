@@ -4,24 +4,24 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Validators\GetUserListForMatchesValidator;
-use App\Http\Services\GetUserListForMatchesService;
-use App\Http\Responders\GetUserListForMatchesResponder;
+use App\Http\Validators\SetMatchActionValidator;
+use App\Http\Services\SetMatchActionService;
+use App\Http\Responders\SetMatchActionResponder;
 use App\Exceptions\ExpandException;
 
-class GetUserListForMatchesController extends Controller {
+class SetMatchActionController extends Controller {
     public function __invoke(Request $request) {
         try {
-            $validator = new GetUserListForMatchesValidator();
+            $validator = new SetMatchActionValidator();
             $validator->validateApi($request);
-            $service = new GetUserListForMatchesService;
+            $service = new SetMatchActionService;
             $data = $service->service($request);
         } catch (ExpandException $e) {
-            $responder = new GetUserListForMatchesResponder($e);
+            $responder = new SetMatchActionResponder($e);
             $responder->setResponse($e->getErrors());
             return $responder->getResponse();
         }
-        $responder = new GetUserListForMatchesResponder();
+        $responder = new SetMatchActionResponder();
         $responder->setResponse($data);
         return $responder->getResponse();
     }

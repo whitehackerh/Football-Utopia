@@ -9,11 +9,11 @@ use Exception;
 use App\Exceptions\ExpandException;
 use App\Models\MatchesModel;
 use App\Models\NotificationsModel;
-use App\Enums\MatchesAction;
+use App\Enums\MatchAction;
 use App\Enums\NotificationsType;
 use App\Enums\NotificationsRead;
 
-class SetMatchesActionService extends BaseService {
+class SetMatchActionService extends BaseService {
     public function service(Request $request) {
         try {
             /*
@@ -33,7 +33,7 @@ class SetMatchesActionService extends BaseService {
             DB::beginTransaction();
             $matchesModel->setAction($from_user_id, $to_user_id, $action);
 
-            if ($action == MatchesAction::YES && $matchesModel->isMatch($to_user_id, $from_user_id)) {
+            if ($action == MatchAction::YES && $matchesModel->isMatch($to_user_id, $from_user_id)) {
                 $records = [];
                 $records[] = array(
                     'sender_id' => $from_user_id,

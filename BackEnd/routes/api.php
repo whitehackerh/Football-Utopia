@@ -15,9 +15,9 @@ use App\Http\Controllers\GetUserDetailProfileController;
 use App\Http\Controllers\SetUserDetailProfileController;
 use App\Http\Controllers\GetFilterSettingsController;
 use App\Http\Controllers\SetFilterSettingsController;
-use App\Http\Controllers\GetUserListForMatchesController;
-use App\Http\Controllers\GetUserProfileForMatchesController;
-use App\Http\Controllers\SetMatchesActionController;
+use App\Http\Controllers\GetUserListForMatchController;
+use App\Http\Controllers\GetUserProfileForMatchController;
+use App\Http\Controllers\SetMatchActionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,9 +56,9 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::post('/setUserDetailProfile', SetUserDetailProfileController::class);
     Route::post('/getFilterSettings', GetFilterSettingsController::class);
     Route::post('/setFilterSettings', SetFilterSettingsController::class);
-    Route::post('/getUserListForMatches', GetUserListForMatchesController::class);
-    Route::post('/getUserProfileForMatches', GetUserProfileForMatchesController::class);
-    Route::post('/setMatchesAction', SetMatchesActionController::class);
+    Route::post('/getUserListForMatch', GetUserListForMatchController::class);
+    Route::post('/getUserProfileForMatch', GetUserProfileForMatchController::class);
+    Route::post('/setMatchAction', SetMatchActionController::class);
 });
 
 Route::middleware(['WBE'])->group(function() {

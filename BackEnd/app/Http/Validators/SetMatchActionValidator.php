@@ -8,12 +8,14 @@ use App\Exceptions\ExpandException;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 
-class GetUserProfileForMatchesValidator extends BaseValidator {
+class SetMatchActionValidator extends BaseValidator {
     private $parameterRule;
 
     public function __construct() {
         $this->parameterRule = [
-            'user_id' => ['required', 'integer']
+            'from_user_id' => ['required', 'integer'],
+            'to_user_id' => ['required', 'integer'],
+            'action' => ['required', 'integer']
         ];
     }
 

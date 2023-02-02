@@ -8,7 +8,7 @@ use App\Exceptions\ExpandException;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 
-class GetUserListForMatchesValidator extends BaseValidator {
+class GetUserProfileForMatchValidator extends BaseValidator {
     private $parameterRule;
 
     public function __construct() {

@@ -9,7 +9,7 @@ use App\Exceptions\ExpandException;
 use App\Models\UsersModel;
 use App\Models\MatchesModel;
 
-class GetUserListForMatchesService extends BaseService {
+class GetUserListForMatchService extends BaseService {
     private const upperLimit = 10;
     // $remaining == 0 -> upper Limit
 

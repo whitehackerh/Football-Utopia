@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Support\Facades\DB;
 use App\Exceptions\ExpandException;
 use Exception;
-use App\Enums\MatchesAction;
+use App\Enums\MatchAction;
 
 class MatchesModel extends BaseModel {
     private $table = 'matches';
@@ -43,7 +43,7 @@ class MatchesModel extends BaseModel {
             return DB::table($this->table)
                 ->where('from_user_id', $from_user_id)
                 ->where('to_user_id', $to_user_id)
-                ->where('action', MatchesAction::YES)
+                ->where('action', MatchAction::YES)
                 ->exists();
         } catch (Exception $e) {
             throw new ExpandException($e->getMessage(), config('ErrorConst.sqlError.code'));

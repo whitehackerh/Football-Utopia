@@ -190,7 +190,7 @@ class UsersModel extends BaseModel {
         }
     }
 
-    public function getUserProfileForMatches($user_id) {
+    public function getUserProfileForMatch($user_id) {
         try {
             $record = DB::table($this->table)
                 ->select('users.id', 'users.user_name', 'users.name', 'users.age', 

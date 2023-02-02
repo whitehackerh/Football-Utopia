@@ -4,8 +4,8 @@ namespace App\Http\Responders;
 
 use App\Http\Responders\BaseResponder;
 
-class GetUserListForMatchesResponder extends BaseResponder {
-    private $apiName = 'getUserListForMatches';
+class SetMatchActionResponder extends BaseResponder {
+    private $apiName = 'setMatchAction';
 
     public function __construct($expandException = null) {
         parent::__construct($this->apiName, $expandException);
