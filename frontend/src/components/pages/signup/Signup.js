@@ -56,7 +56,7 @@ export default function Signup() {
             localStorage.setItem('access_token', res.data.access_token);
             localStorage.setItem('token_type', res.data.token_type);
             getUserBasicProfile();
-            navigate('/basicProfileSettings');
+            navigate('/home');
         })
         .catch((error) => {
             console.log(error);

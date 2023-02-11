@@ -1,0 +1,13 @@
+<mxfile host="65bd71144e">
+    <diagram id="TOjREx7Y_IdApwu624VZ" name="ページ1">
+        <mxGraphModel dx="768" dy="673" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="2" value="NOPE&lt;font style=&quot;font-size: 66px;&quot;&gt;&lt;br style=&quot;font-size: 66px;&quot;&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;rotation=40;arcSize=50;fillColor=none;fontColor=#001dbc;strokeColor=#001DBC;fontStyle=1;fontSize=66;strokeWidth=12;" vertex="1" parent="1">
+                    <mxGeometry x="270.38" y="363.81" width="300" height="180" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
