@@ -15,11 +15,13 @@ import BasicProfileSettings from "./components/pages/accountSettings/BasicProfil
 import ProfilePictureSettings from "./components/pages/accountSettings/ProfilePictureSettings";
 import DetailProfileSettings from "./components/pages/accountSettings/DetailProfileSettings";
 import FilterSettings from "./components/pages/accountSettings/FilterSettings";
+import History from "./components/pages/match/History";
+import Match from "./components/pages/match/Match";
 
 const Top = () => {
   // リンクによるページ遷移
   return (
-    <h1>Top</h1>
+    <h1></h1>
   );
 };
 
@@ -52,6 +54,8 @@ const App = () => {
           <Route path="/profilePictureSettings" element={<ProfilePictureSettings />} />
           <Route path="/detailProfileSettings" element={<DetailProfileSettings />} />
           <Route path="/filterSettings" element={<FilterSettings />} />
+          <Route path="/history" element={<History />} />
+          <Route path="/match" element={<Match />} />
         </Route>
       </Routes>
     </BrowserRouter>

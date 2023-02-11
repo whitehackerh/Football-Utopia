@@ -718,7 +718,7 @@ const FilterSettings = () => {
                             options={years}
                             value={playingExperience}
                             sx={{ width: 300 }}
-                            renderInput={(params) => <TextField {...params} label="Playing Experience" />}
+                            renderInput={(params) => <TextField {...params} label="Playing Experience (at least)" />}
                             onChange={(event, newValue) => {handleChange(event, newValue, 'setPlayingExperience', 'playingExperience');}}
                         >                        
                         </Autocomplete>
