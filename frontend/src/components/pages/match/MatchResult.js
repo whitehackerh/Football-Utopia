@@ -5,7 +5,7 @@ import match from "../../../assets/img/matchResult/match.png";
 
 const MatchResult = (props) => {
     const resultImageStyle = {
-        width: '120px',
+        width: '150px',
         height: 'auto'
     };
 

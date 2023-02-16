@@ -71,12 +71,12 @@ const History = () => {
     const pictureFrameStyle = {
         'position': 'relative',
         'z-index': '0',
-        width: '120px',
+        width: '150px',
         height: '150px'
     }
 
     const resultStyle = {
-        'z-index': 20,
+        'z-index': '20',
         top: '120px',
         position: 'absolute',
     }
@@ -98,7 +98,7 @@ const History = () => {
                                         {groupedData[date].map((item, i) => (
                                             <div style={pictureFrameStyle}>
                                                 <img key={i} src={item.profile_picture_representative + "?" + dateCash} 
-                                                    style={{width: '120px', cursor: item.is_match ? 'pointer' : 'default', height: 'auto', 'z-index': '20'}} 
+                                                    style={{width: '150px', cursor: item.is_match ? 'pointer' : 'default', height: 'auto', 'z-index': '19'}} 
                                                     onClick={() => openProfileCard(item)}
                                                 />
                                                 <div style={resultStyle}>
