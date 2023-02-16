@@ -4,7 +4,7 @@ namespace App\Enums;
 
 use BenSampo\Enum\Enum;
 
-final class NotificationsRead extends Enum
+final class Read extends Enum
 {
     const UNREAD = 0;
     const READ = 1;

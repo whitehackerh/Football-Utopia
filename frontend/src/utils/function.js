@@ -10,6 +10,9 @@ export function getUserBasicProfile() {
 };
 
 export function deleteBackSlash(value) {
+    if (!value) {
+        return;
+    }
     return value.replace(/(\\)/g, '');
 }
 

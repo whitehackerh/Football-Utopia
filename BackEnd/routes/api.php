@@ -18,6 +18,7 @@ use App\Http\Controllers\SetFilterSettingsController;
 use App\Http\Controllers\GetUserListForMatchController;
 use App\Http\Controllers\GetUserProfileForMatchController;
 use App\Http\Controllers\SetMatchActionController;
+use App\Http\Controllers\GetMatchHistoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -59,6 +60,7 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::post('/getUserListForMatch', GetUserListForMatchController::class);
     Route::post('/getUserProfileForMatch', GetUserProfileForMatchController::class);
     Route::post('/setMatchAction', SetMatchActionController::class);
+    Route::post('/getMatchHistory', GetMatchHistoryController::class);
 });
 
 Route::middleware(['WBE'])->group(function() {

@@ -9,9 +9,10 @@ use Exception;
 use App\Exceptions\ExpandException;
 use App\Models\MatchesModel;
 use App\Models\NotificationsModel;
+use App\Models\MessagesModel;
 use App\Enums\MatchAction;
 use App\Enums\NotificationsType;
-use App\Enums\NotificationsRead;
+use App\Enums\Read;
 
 class SetMatchActionService extends BaseService {
     public function service(Request $request) {
@@ -25,6 +26,7 @@ class SetMatchActionService extends BaseService {
             $data = [];
             $matchesModel = new MatchesModel();
             $notificationsModel = new NotificationsModel();
+            $messagesModel = new MessagesModel();
 
             $from_user_id = $request->input('from_user_id');
             $to_user_id = $request->input('to_user_id');
@@ -39,15 +41,21 @@ class SetMatchActionService extends BaseService {
                     'sender_id' => $from_user_id,
                     'recipient_id' => $to_user_id,
                     'type' => NotificationsType::MATCH,
-                    'read' => NotificationsRead::UNREAD
+                    'read' => Read::UNREAD
                 );
                 $records[] = array(
                     'sender_id' => $to_user_id,
                     'recipient_id' => $from_user_id,
                     'type' => NotificationsType::MATCH,
-                    'read' => NotificationsRead::UNREAD
+                    'read' => Read::UNREAD
                 );
                 $notificationsModel->setNotifications($records);
+                $message = [
+                    'sender_id' => $from_user_id,
+                    'receiver_id' => $to_user_id,
+                    'read' => Read::READ
+                ];
+                $messagesModel->setMessageInit($message);
                 $data['isMatch'] = 0;
             } else {
                 $data['isMatch'] = 1;
