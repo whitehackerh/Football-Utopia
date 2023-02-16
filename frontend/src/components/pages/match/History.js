@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import SideBar_Match from './SideBar_Match';
 import CommonProfileCard from '../common/ProfileCard'; 
+import MatchResult from './MatchResult';
 import InfiniteScroll from "react-infinite-scroller";
 import { withTokenRequest, requestHeaders } from '../../../http';
 import { deleteBackSlash } from '../../../utils/function';
@@ -51,9 +52,13 @@ const History = () => {
 
     const dates = Object.keys(groupedData);
 
-    function openProfileCard(user_id) {
-        setProfileCardUserId(user_id);
-        setIsOpenProfileCard(true);
+    function openProfileCard(item) {
+        if (item.is_match) {
+            setProfileCardUserId(item.to_user_id);
+            setIsOpenProfileCard(true); 
+        } else {
+            return;
+        }
     }
 
     /** css */
@@ -63,11 +68,18 @@ const History = () => {
         width: 'calc(100% - 362px)'
     };
 
-    const pictureStyle = {
-        width: '150px',
-        height: 'auto',
-        cursor: 'pointer'
-    };
+    const pictureFrameStyle = {
+        'position': 'relative',
+        'z-index': '0',
+        width: '120px',
+        height: '150px'
+    }
+
+    const resultStyle = {
+        'z-index': 20,
+        top: '120px',
+        position: 'absolute',
+    }
 
     if (!isOpenProfileCard) {
         return (
@@ -84,9 +96,15 @@ const History = () => {
                                     <h3>{date}</h3>
                                     <div className="images" style={{display: 'flex'}}>
                                         {groupedData[date].map((item, i) => (
-                                        <img key={i} src={item.profile_picture_representative + "?" + dateCash} style={pictureStyle} 
-                                            onClick={() => openProfileCard(item.to_user_id)}
-                                        />
+                                            <div style={pictureFrameStyle}>
+                                                <img key={i} src={item.profile_picture_representative + "?" + dateCash} 
+                                                    style={{width: '120px', cursor: item.is_match ? 'pointer' : 'default', height: 'auto', 'z-index': '20'}} 
+                                                    onClick={() => openProfileCard(item)}
+                                                />
+                                                <div style={resultStyle}>
+                                                    <MatchResult action={item.action} is_match={item.is_match}></MatchResult>
+                                                </div>
+                                            </div>
                                         ))}
                                     </div>
                                 </div>
@@ -108,7 +126,6 @@ const History = () => {
             </div>
         )
     }
-    
 }
 
 export default History;
