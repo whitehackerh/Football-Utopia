@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import SideBar_Match from './SideBar_Match';
-import CommonProfileCard from '../common/ProfileCard'; 
+import CommonProfileCard from '../common/CommonProfileCard'; 
 import MatchResult from './MatchResult';
 import InfiniteScroll from "react-infinite-scroller";
 import { withTokenRequest, requestHeaders } from '../../../http';
@@ -15,6 +15,7 @@ const History = () => {
     const [profileCardUserId, setProfileCardUserId] = useState(null);
     const [isOpenProfileCard, setIsOpenProfileCard] = useState(false);
     const dateCash = Date.now();
+    requestHeaders.Authorization = `${localStorage.getItem('token_type')} ${localStorage.getItem('access_token')}`;
 
     const getMatchHistory = async (page) => {
         setIsFetching(true);

@@ -31,14 +31,6 @@ const ProfileCardModal = (props) => {
         'max-height': '90%'
     };
 
-    // const picturesBlockStyle = `
-    //     ::after{
-    //         content: " ";
-    //         display: block;
-    //         clear: both;
-    //     }
-    // `;
-
     const pictureStyle = {
         float: 'left',
         width: '150px',
@@ -133,56 +125,34 @@ const ProfileCardModal = (props) => {
     }
 
     let nationality = '';
-    if (props.profile.nationality.name == 'France') {
-        nationality = (
-            <>
-                <div style={textFontStyle}>
-                    <img src={France} alt='picture' style={nationalFragStyle}></img>
-                    &nbsp;France
-                </div>
-            </>
-        );
+    let nationalFlagPath = '';
+    switch (props.profile.nationality.name) {
+        case 'France':
+            nationalFlagPath = France;
+            break;
+        case 'Germany':
+            nationalFlagPath = Germany;
+            break;
+        case 'Italy':
+            nationalFlagPath = Italy;
+            break;
+        case 'Spain':
+            nationalFlagPath = Spain;
+            break;
+        case 'UK':
+            nationalFlagPath = UK;
+            break;
+        default:
+            break;
     }
-    if (props.profile.nationality.name == 'Germany') {
-        nationality = (
-            <>
-                <div style={textFontStyle}>
-                    <img src={Germany} alt='picture' style={nationalFragStyle}></img>
-                    &nbsp;Germany
-                </div>
-            </>
-        );
-    }
-    if (props.profile.nationality.name == 'Italy') {
-        nationality = (
-            <>  
-                <div style={textFontStyle}>
-                    <img src={Italy} alt='picture' style={nationalFragStyle}></img>
-                    &nbsp;Italy
-                </div>
-            </>
-        );
-    }
-    if (props.profile.nationality.name == 'Spain') {
-        nationality = (
-            <>
-                <div style={textFontStyle}>
-                    <img src={Spain} alt='picture' style={nationalFragStyle}></img>
-                    &nbsp;Spain
-                </div>
-            </>
-        );
-    }
-    if (props.profile.nationality.name == 'UK') {
-        nationality = (
-            <>
-                <div style={textFontStyle}>
-                    <img src={UK} alt='picture' style={nationalFragStyle}></img>
-                    &nbsp;UK
-                </div>
-            </>
-        );
-    }
+    nationality = (
+        <>
+            <div style={textFontStyle}>
+                <img src={nationalFlagPath} alt='picture' style={nationalFragStyle}></img>
+                &nbsp;{props.profile.nationality.name}
+            </div>
+        </>
+    );
 
     let lookingFor = null;
     if (props.profile.looking_for.id) {

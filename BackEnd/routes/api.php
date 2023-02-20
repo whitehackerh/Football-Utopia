@@ -19,6 +19,8 @@ use App\Http\Controllers\GetUserListForMatchController;
 use App\Http\Controllers\GetUserProfileForMatchController;
 use App\Http\Controllers\SetMatchActionController;
 use App\Http\Controllers\GetMatchHistoryController;
+use App\Http\Controllers\GetUserProfileForCommonCardController;
+use App\Http\Controllers\SendLikeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -61,6 +63,8 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::post('/getUserProfileForMatch', GetUserProfileForMatchController::class);
     Route::post('/setMatchAction', SetMatchActionController::class);
     Route::post('/getMatchHistory', GetMatchHistoryController::class);
+    Route::post('/getUserProfileForCommonCard', GetUserProfileForCommonCardController::class);
+    Route::post('/sendLike', SendLikeController::class);
 });
 
 Route::middleware(['WBE'])->group(function() {

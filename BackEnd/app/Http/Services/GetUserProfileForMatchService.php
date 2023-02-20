@@ -13,7 +13,7 @@ class GetUserProfileForMatchService extends BaseService {
     public function service(Request $request) {
         try {
             $model = new UsersModel();
-            $record = $model->getUserProfileForMatch($request->input('user_id'));
+            $record = $model->getUserProfileForCard($request->input('user_id'));
             $data = $this->formatResponseData($record);
             return $data;
         } catch (Exception $e) {

@@ -3,8 +3,10 @@
 namespace App\Models;
 
 use Illuminate\Support\Facades\DB;
+use App\Enums\NotificationsType;
 use App\Exceptions\ExpandException;
 use Exception;
+use Illuminate\Support\Carbon;
 
 class NotificationsModel extends BaseModel {
     private $table = 'notifications';
@@ -28,6 +30,36 @@ class NotificationsModel extends BaseModel {
                     'created_at' => now() 
                 ]
             ]);
+        } catch (Exception $e) {
+            throw new ExpandException($e->getMessage(), config('ErrorConst.sqlError.code'));
+        }
+    }
+
+    public function canLike($login_user_id, $other_user_id) {
+        try {
+            return DB::table($this->table)
+                ->where('sender_id', $login_user_id)
+                ->where('recipient_id', $other_user_id)
+                ->where('type', NotificationsType::LIKE)
+                ->where('created_at', '>=', Carbon::now()->subMonth())
+                ->exists();
+        } catch (Exception $e) {
+            throw new ExpandException($e->getMessage(), config('ErrorConst.sqlError.code'));
+        }
+    }
+
+    public function sendLike($sender_id, $recipient_id, $type, $read) {
+        try {
+            DB::table($this->table)
+            ->insert(
+                [
+                    'sender_id' => $sender_id,
+                    'recipient_id' => $recipient_id,
+                    'type' => $type,
+                    'read' => $read,
+                    'created_at' => now() 
+                ]
+            );
         } catch (Exception $e) {
             throw new ExpandException($e->getMessage(), config('ErrorConst.sqlError.code'));
         }
