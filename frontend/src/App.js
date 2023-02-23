@@ -17,6 +17,7 @@ import DetailProfileSettings from "./components/pages/accountSettings/DetailProf
 import FilterSettings from "./components/pages/accountSettings/FilterSettings";
 import History from "./components/pages/match/History";
 import Match from "./components/pages/match/Match";
+import Notifications from "./components/pages/notifications/Notifications";
 
 const Top = () => {
   // リンクによるページ遷移
@@ -56,6 +57,7 @@ const App = () => {
           <Route path="/filterSettings" element={<FilterSettings />} />
           <Route path="/history" element={<History />} />
           <Route path="/match" element={<Match />} />
+          <Route path="/notifications" element={<Notifications />} />
         </Route>
       </Routes>
     </BrowserRouter>

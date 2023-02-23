@@ -38,6 +38,7 @@ const History = () => {
                 setIsFetching(false);
             } else {
                 setHasMore(false);
+                setIsFetching(false);
             }
         })
     }

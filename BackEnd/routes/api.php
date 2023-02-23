@@ -21,6 +21,9 @@ use App\Http\Controllers\SetMatchActionController;
 use App\Http\Controllers\GetMatchHistoryController;
 use App\Http\Controllers\GetUserProfileForCommonCardController;
 use App\Http\Controllers\SendLikeController;
+use App\Http\Controllers\GetUnreadNotificationsController;
+use App\Http\Controllers\GetNotificationsController;
+use App\Http\Controllers\SetReadNotificationsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -65,6 +68,9 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::post('/getMatchHistory', GetMatchHistoryController::class);
     Route::post('/getUserProfileForCommonCard', GetUserProfileForCommonCardController::class);
     Route::post('/sendLike', SendLikeController::class);
+    Route::post('/getUnreadNotifications', GetUnreadNotificationsController::class);
+    Route::post('/getNotifications', GetNotificationsController::class);
+    Route::post('/setReadNotifications', SetReadNotificationsController::class);
 });
 
 Route::middleware(['WBE'])->group(function() {
