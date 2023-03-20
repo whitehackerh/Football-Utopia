@@ -300,4 +300,16 @@ class UsersModel extends BaseModel {
             throw new ExpandException($e->getMessage(), config('ErrorConst.sqlError.code'));
         }
     }
+
+    public function getNameAndPictures($userList) {
+        try {
+            $record = DB::table($this->table)
+                ->select('id', 'name', 'profile_picture_cropped_1', 'profile_picture_cropped_2', 'profile_picture_cropped_3')
+                ->whereIn('id', $userList)
+                ->get();
+            return $record;
+        } catch (Exception $e) {
+            throw new ExpandException($e->getMessage(), config('ErrorConst.sqlError.code'));
+        }
+    }
 }

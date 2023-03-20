@@ -18,6 +18,7 @@ import FilterSettings from "./components/pages/accountSettings/FilterSettings";
 import History from "./components/pages/match/History";
 import Match from "./components/pages/match/Match";
 import Notifications from "./components/pages/notifications/Notifications";
+import DirectMessage from './components/pages/directMessage/DirectMessage';
 
 const Top = () => {
   // リンクによるページ遷移
@@ -58,6 +59,7 @@ const App = () => {
           <Route path="/history" element={<History />} />
           <Route path="/match" element={<Match />} />
           <Route path="/notifications" element={<Notifications />} />
+          <Route path="/directMessage" element={<DirectMessage />} />
         </Route>
       </Routes>
     </BrowserRouter>

@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { withTokenRequest, requestHeaders } from './http';
 import { Box } from "@mui/material";
 import Logo from "./assets/img/logo.png"
@@ -13,7 +13,6 @@ import Menu from "@mui/material/Menu";
 import Badge from '@mui/material/Badge';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import notice from './assets/img/icons/notice.png';
-//import NotificationsIcon from '@mui/icons-material/Notifications';
 import match from './assets/img/icons/match.png';
 import message from './assets/img/icons/message.png';
 import album from './assets/img/icons/album.png';
@@ -21,9 +20,9 @@ import useInterval from 'use-interval';
 
 const HomeBar = () => {
   let navigate = useNavigate();
-  let timer;
   const [anchorEl, setAnchorEl] = useState(null);
   const [unreadNotificationsCount, setUnreadNotificationsCount] = useState(0);
+  const [unreadMessagesCount, setUnreadMessagesCount] = useState(0);
   const isMenuOpen = Boolean(anchorEl);
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -71,6 +70,19 @@ const HomeBar = () => {
     }
   }, 5000);
 
+  useInterval(() => {
+    if (localStorage.getItem('access_token')) {
+      requestHeaders.Authorization = `${localStorage.getItem('token_type')} ${localStorage.getItem('access_token')}`;
+      withTokenRequest.post('/getUnreadMessages', {
+        user_id: localStorage.getItem('user_id'),
+      }, {
+        headers: requestHeaders
+      }).then((res) => {
+        setUnreadMessagesCount(res.data.data.unread_count);
+      });
+    }
+  }, 5000);
+
   const headerButtonsStyle = {
     'margin-left': '435px'
   };
@@ -92,7 +104,7 @@ const HomeBar = () => {
         <div className="headerButtons" style={headerButtonsStyle}>
         <IconButton onClick={() => navigate('/notifications')} style={IconButtonStyle}><Badge badgeContent={unreadNotificationsCount} color="primary"><img src={notice} style={headerIconsStyle}></img></Badge></IconButton>
         <IconButton onClick={() => navigate('/history')} style={IconButtonStyle}><img src={match} style={headerIconsStyle}></img></IconButton>
-        <IconButton style={IconButtonStyle}><img src={message} style={headerIconsStyle}></img></IconButton>
+        <IconButton onClick={() => navigate('/directMessage')} style={IconButtonStyle}><Badge badgeContent={unreadMessagesCount} color="primary"><img src={message} style={headerIconsStyle}></img></Badge></IconButton>
         <IconButton style={IconButtonStyle}><img src={album} style={headerIconsStyle}></img></IconButton>
         </div>
       </>

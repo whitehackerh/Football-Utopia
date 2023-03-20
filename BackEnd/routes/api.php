@@ -24,6 +24,13 @@ use App\Http\Controllers\SendLikeController;
 use App\Http\Controllers\GetUnreadNotificationsController;
 use App\Http\Controllers\GetNotificationsController;
 use App\Http\Controllers\SetReadNotificationsController;
+use App\Http\Controllers\GetUnreadMessagesController;
+use App\Http\Controllers\GetLatestMessageListController;
+use App\Http\Controllers\GetMessagesController;
+use App\Http\Controllers\SetReadMessagesController;
+use App\Http\Controllers\DeleteMessageController;
+use App\Http\Controllers\SendMessageController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -71,6 +78,12 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::post('/getUnreadNotifications', GetUnreadNotificationsController::class);
     Route::post('/getNotifications', GetNotificationsController::class);
     Route::post('/setReadNotifications', SetReadNotificationsController::class);
+    Route::post('/getUnreadMessages', GetUnreadMessagesController::class);
+    Route::post('/getLatestMessageList', GetLatestMessageListController::class);
+    Route::post('/getMessages', GetMessagesController::class);
+    Route::post('/setReadMessages', SetReadMessagesController::class);
+    Route::post('/deleteMessage', DeleteMessageController::class);
+    Route::post('/sendMessage', SendMessageController::class);
 });
 
 Route::middleware(['WBE'])->group(function() {
