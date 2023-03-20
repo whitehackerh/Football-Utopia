@@ -1,8 +1,6 @@
-
-
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import useInterval from 'use-interval';
-import InifiniteScroll from 'react-infinite-scroller';
+import InfiniteScroll from 'react-infinite-scroller';
 import { withTokenRequest, requestHeaders } from '../../../http';
 import { deleteBackSlash } from '../../../utils/function';
 import CommonProfileCard from '../common/CommonProfileCard'; 
@@ -175,7 +173,7 @@ const Notifications = () => {
         return (
             <div>
                 <div style={mainContents}>
-                    <InifiniteScroll
+                    <InfiniteScroll
                         loadMore={getNotifications}
                         hasMore={!isFetching && hasMore}
                         useWindow={false}>
@@ -193,7 +191,7 @@ const Notifications = () => {
                                     <hr></hr>
                                 </div>
                             ))}
-                    </InifiniteScroll>
+                    </InfiniteScroll>
                 </div>
             </div>
         );

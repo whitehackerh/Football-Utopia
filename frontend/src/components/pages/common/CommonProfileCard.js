@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { withTokenRequest, requestHeaders } from '../../../http';
 import Button from "@mui/material/Button";
 import { deleteBackSlash } from '../../../utils/function';
@@ -17,6 +18,7 @@ const CommonProfileCard = (props) => {
     const [canLike, setCanLike] = useState(null);
     requestHeaders.Authorization = `${localStorage.getItem('token_type')} ${localStorage.getItem('access_token')}`;
     const date = Date.now();
+    const navigate = useNavigate();
 
     useEffect(() => {
         getProfile();
@@ -40,6 +42,15 @@ const CommonProfileCard = (props) => {
     
     function closeProfileCard() {
         props.setIsOpenProfileCard(false);
+        if (props.needCloseFunction) {
+            switch (props.closeFuncName) {
+                case 'closeProfileCardOnHistory': 
+                    props.closeFunction();
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
     function sendLike() {
@@ -54,6 +65,22 @@ const CommonProfileCard = (props) => {
                 setCanLike(true);
             }
         })
+    }
+
+    const transitionToMessage = () => {
+        let targetPicture = null;
+        if (profile.profile_pictures.cropped_1) {
+            targetPicture = profile.profile_pictures.cropped_1;
+        } else if (profile.profile_pictures.cropped_2) {
+            targetPicture = profile.profile_pictures.cropped_2;
+        } else if (profile.profile_pictures.cropped_3) {
+            targetPicture = profile.profile_pictures.cropped_3;
+        }
+        if (props.url == 'directMessage') {
+            props.clickMessageFunc(true, profile.user_id, profile.name, '../../storage/' + deleteBackSlash(targetPicture) + '?' + date);
+        } else {
+            navigate('/directMessage', {state: {user_id: profile.user_id, name: profile.name, picture: targetPicture}});
+        }
     }
 
     const cardStyle = {
@@ -101,6 +128,14 @@ const CommonProfileCard = (props) => {
         'font-size': '20px',
         'font-weight': 'bold',
         'margin-left': '10px'
+    }
+    let back = '';
+    if (!props.noDispBack) {
+        back = (
+            <>
+                <Button onClick={closeProfileCard}> ← Back</Button>
+            </>
+        );
     }
 
     let picture1 = '';
@@ -439,7 +474,7 @@ const CommonProfileCard = (props) => {
         <div>
             {props.isOpenProfileCard ? (
                 <div>
-                    <Button onClick={closeProfileCard}> ← Back</Button>
+                    {back}
                     <div className="profileCardContent" style={cardStyle}>
                         <div className="pictures">
                             {picture1}
@@ -459,7 +494,7 @@ const CommonProfileCard = (props) => {
                         <div className="buttons" style={{clear: 'both'}}>
                             {like}
                             {/* todo onclick move message */}
-                            <IconButton><img src={Message} style={iconsStyle}></img></IconButton>
+                            <IconButton onClick={transitionToMessage}><img src={Message} style={iconsStyle}></img></IconButton>
                         </div>
                         <hr style={{clear: 'both'}}></hr><br></br>
                         <div className="detailProfile">

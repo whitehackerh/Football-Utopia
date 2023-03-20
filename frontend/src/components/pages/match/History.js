@@ -63,6 +63,12 @@ const History = () => {
         }
     }
 
+    function closeProfileCardOnHistory() {
+        setRecords([]);
+        setHasMore(true);
+        setCurrentPage(0);
+    }
+
     /** css */
     const mainContents = {
         float: 'left',
@@ -122,7 +128,10 @@ const History = () => {
                 <div style={mainContents}>
                     <CommonProfileCard isOpenProfileCard={isOpenProfileCard} 
                         setIsOpenProfileCard={setIsOpenProfileCard} 
-                        user_id={profileCardUserId} >
+                        user_id={profileCardUserId}
+                        needCloseFunction={true}
+                        closeFuncName={'closeProfileCardOnHistory'}
+                        closeFunction={closeProfileCardOnHistory} >
                     </CommonProfileCard>
                 </div>
             </div>
